@@ -1,40 +1,35 @@
 language: android
-sudo: required # FIXME: required by the license rewrite
+sudo: required
 jdk: oraclejdk8
 android:
   components:
-    - tools
-    - platform-tools
-    - build-tools-25.0.0
-
-    # Compiled version
-    - android-23
-
-    # Min version
-    - android-21
-
-    # Additional components
-    - extra-google-google_play_services
-    - extra-google-m2repository
-    - extra-android-m2repository
-    - addon-google_apis-google-19
-
-    # Specify at least one system image,
-    # if you need to run emulator(s) during your tests
-    - sys-img-armeabi-v7a-android-21
+  - tools
+  - platform-tools
+  - build-tools-25.0.0
+  - android-23
+  - android-21
+  - extra-google-google_play_services
+  - extra-google-m2repository
+  - extra-android-m2repository
+  - addon-google_apis-google-19
+  - sys-img-armeabi-v7a-android-21
+env:
+  global:
+    secure: RKNEdMlUMqxtrDg4hP12vypK7dHQjO+19mdUfQ+Iat+F1SJSKnPbJDF53/zMSscGum49WTpScOcpvOoTylN9+gOAyqC0orZPJz8b9ptyxxMdRhUC/ZZACYuf9o4X/aiTYdS4ArrCI5wHaFgGpx5u1cuKKHbKPBMSi5XDcnhBvUdbCcwomJ5r/mhnxFu2zTW/rkVdvsiFhmWk4WbkJYgCESIgcPPk6L66XwQ3gBiOcbtvTc6O2cCBP1uVzcG3nroDB2z4KSOFwfA3O9rFQ9HR7jgtgWEyFHuaSnXdUQ9bD12SEI9xK/ByhZBN4EcC+L+WI0AoY5CPWbNgYJomm4FG7Tv+qzkUkHV4GWCZjEAnKP2Ha0Mr32uOTgJ4D0bquXZb6N8mvmQTivsh78GiclPyN0gA/YQbcHhY5a4FfkL1YODjw3DnMQmbowzbrZa5wxXdn8enAS9/+L+eZM9VQW/JnwNGRsrP8qXMOOZTV7q8mNs7ZvzPkqOat7C0/ZiPcErOxFpKpMerWuSVUOlB3rFb7rHv7XNMdG7qGYDHUIOVlk8vnE6494ZgvmAu1gwnj5DBozd2R3zfAc0/Ms3VH4xOghwfdn6r+aSGaspiK7lsW6qzTCvEtmcc647CQfNxY01OKFlYriotslDuJyXOYCc81ZQvPujqMjzHOifW6ScRC3M=
 before_install:
-  # FIXME: remove at some point. required because of constraint layout bug in android preview
-  - mkdir "$ANDROID_HOME/licenses" || true
-  - echo -e "\n8933bad161af4178b1185d1a37fbf41ea5269c55" > "$ANDROID_HOME/licenses/android-sdk-license"
-  - echo -e "\n84831b9409646a918e30573bab4c9c91346d8abd" > "$ANDROID_HOME/licenses/android-sdk-preview-license"
-  - chmod +x gradlew
-  - ./gradlew dependencies || true # DON'T ADD unless you are getting "Install missing components using SDK manager"
-  #Source: https://medium.com/@oldergod/constraint-layout-and-circleci-travis-d50342696d2
+- openssl aes-256-cbc -k "$fabric_encryption_key" -in app/fabric.properties.enc -out app/fabric.properties -d
+- mkdir "$ANDROID_HOME/licenses" || true
+- echo -e "\n8933bad161af4178b1185d1a37fbf41ea5269c55" > "$ANDROID_HOME/licenses/android-sdk-license"
+- echo -e "\n84831b9409646a918e30573bab4c9c91346d8abd" > "$ANDROID_HOME/licenses/android-sdk-preview-license"
+- chmod +x gradlew
+- ./gradlew dependencies || true
 script: ./gradlew assembleRelease
 before_cache:
-  - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
-  - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
+- rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
+- rm -fr $HOME/.gradle/caches/*/plugin-resolution/
 cache:
   directories:
-    - $HOME/.gradle/caches/
-    - $HOME/.gradle/wrapper/
+  - $HOME/.gradle/caches/
+  - $HOME/.gradle/wrapper/
+after_script:
+- rm app/fabric.properties
