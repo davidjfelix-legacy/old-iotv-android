@@ -3,6 +3,14 @@ apply plugin: 'kotlin-android'
 apply plugin: 'io.fabric'
 
 android {
+    signingConfigs {
+        config {
+            keyAlias 'key0'
+            keyPassword System.getenv('key_password')
+            storeFile file('releaseKeystore.jks')
+            storePassword System.getenv('store_password')
+        }
+    }
     compileSdkVersion 23
     buildToolsVersion '25.0.0'
     defaultConfig {
@@ -13,7 +21,6 @@ android {
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
-
     buildTypes {
         release {
             minifyEnabled false
@@ -21,7 +28,6 @@ android {
             zipAlignEnabled true
         }
     }
-
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
         test.java.srcDirs += 'src/test/kotlin'
@@ -30,7 +36,7 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
