@@ -41,3 +41,6 @@ captures/
 
 # Fabric secret config
 fabric.properties
+
+# Mac Files
+.DS_Store

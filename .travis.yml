@@ -22,7 +22,8 @@ env:
 before_install:
 - openssl aes-256-cbc -k "$fabric_encryption_key" -in app/fabric.properties.enc -out
   app/fabric.properties -d
-- openssl aes-256-cbc -k "$keystore_encryption_key" -in app/releaseKeystore.jks.enc -out app/releaseKeystore.jks -d
+- openssl aes-256-cbc -k "$keystore_encryption_key" -in app/releaseKeystore.jks.enc
+  -out app/releaseKeystore.jks -d
 - mkdir "$ANDROID_HOME/licenses" || true
 - echo -e "\n8933bad161af4178b1185d1a37fbf41ea5269c55" > "$ANDROID_HOME/licenses/android-sdk-license"
 - echo -e "\n84831b9409646a918e30573bab4c9c91346d8abd" > "$ANDROID_HOME/licenses/android-sdk-preview-license"
@@ -36,6 +37,14 @@ cache:
   directories:
   - $HOME/.gradle/caches/
   - $HOME/.gradle/wrapper/
+deploy:
+  provider: releases
+  api_key:
+    secure: haZyl+fwBLxEznzLDkgyvyP8WStjAlIPW0fYAWT2UEdIKkq065DGI+rIuFM7EYz4+3kOY+oGZ8bzLIUkA6hAEMjzZfGo8PkUbvAv/O1T3x6vzZZVknNw6vTvhpAuZRC7nsk2wJWCu7KlpVcwbLh6PYc6pK2RxgnTCKJ/y0B6B4Gk1i8CcAiC6BzhEZY2BiWFSx4IKRLDouSH9LLDFv64VYPoHfG2gXNlMzScHeZOIMlnrMQtx+0ayZdjWCVxmbmYk8b+q8o3Xey20KcWklNctSgcKhkw330CyM4xINwkI+qvbK4cSsLqApSZ1OeJaY9im8giSQ7j76MhzKXlp+V5Hd5Zm0uGaOnxqTGBmbnowC8b9HrM56V9TNDAeJyx4v9SljLZ13xRf/hf7XGYsNqUCowMPM5ivNKm1gz9scbrhO2cxWoiYfV4qQok7qYuwHMdLcYwUh0eR6fHuGQbIfzoMkLSWPId9Fwi0Q+iV2HzNt1ZTTdtXTO+oemG9MhsHiwZJ5acyAobyQOztL/EvWLYD72jOLySaWrRVXw5eekcoTjvwisWW3YoI8X1ApRXh1sd+9V7+Cix1eEoGDgGRuEqakoy3V3VdnJOjZEaUnzXCbQamwCUrmuOhepWhEqLVINqqblPftJN80hC6bU7tQkgpaqaXAXdVBX2mHel/Qwj0IY=
+  file: app/build/outputs/apk/app-release.apk
+  on:
+    repo: mg4tv/android
+    tags: true
 after_script:
 - rm app/fabric.properties
 - rm app/releaseKeystore.jks
