@@ -3,9 +3,26 @@ jvm: oraclejdk8
 android:
   components:
     - tools
+    - platform-tools
     - build-tools-25.0.0
+
+    # Compiled version
     - android-23
-script: ./gradlew clean build assembleRelease
+
+    # Min version
+    - android-21
+
+   # Additional components
+   - extra-google-google_play_services
+   - extra-google-m2repository
+   - extra-android-m2repository
+   - addon-google_apis-google-19
+
+   # Specify at least one system image,
+   # if you need to run emulator(s) during your tests
+   - sys-img-armeabi-v7a-android-22
+   - sys-img-armeabi-v7a-android-17
+script: ./gradlew assembleRelease
 before_cache:
   - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
   - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
