@@ -4,7 +4,7 @@ apply plugin: 'io.fabric'
 
 android {
     signingConfigs {
-        config {
+        release {
             keyAlias 'key0'
             keyPassword System.getenv('key_password')
             storeFile file('releaseKeystore.jks')
@@ -26,6 +26,7 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             zipAlignEnabled true
+            signingConfig signingConfigs.release
         }
     }
     sourceSets {
