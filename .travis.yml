@@ -2,6 +2,7 @@ language: android
 jvm: oraclejdk8
 android:
   components:
+    - tools
     - build-tools-25.0.0
     - android-23
 script: ./gradlew clean build assembleRelease
