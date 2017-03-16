@@ -44,3 +44,10 @@ fabric.properties
 
 # Mac Files
 .DS_Store
+
+# Google Play API credentials
+googlePlayAPICredentials.json
+
+# Fastlane generated-at-build files
+/fastlane/report.xml
+/fastlane/metadata/
