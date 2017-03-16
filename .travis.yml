@@ -51,7 +51,7 @@ deploy:
     tags: true
 deploy:
   provider: script
-  script: bundle exec fastlane alpha
+  script: scripts/alpha_deploy.sh
   skip_cleanup: true
   on:
     branch: alpha
