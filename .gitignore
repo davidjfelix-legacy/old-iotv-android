@@ -50,4 +50,5 @@ googlePlayAPICredentials.json
 
 # Fastlane generated-at-build files
 /fastlane/report.xml
+/fastlane/README.md
 /fastlane/metadata/
