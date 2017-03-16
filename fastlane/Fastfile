@@ -11,7 +11,7 @@ platform :android do
 
   desc "Submit a new Alpha Build to Android Alpha and Crashlytics Beta"
   lane :alpha do
-    supply(track: "alpha")
+    supply(track: "alpha", apk: "app/build/outputs/apk/app-release.apk")
   end
 
   desc "Submit a new Beta Build to Android Beta"
