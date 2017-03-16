@@ -4,9 +4,13 @@ default_platform :android
 
 platform :android do
 
+  desc "Create a Release APK"
+  lane :release do
+    gradle(task: "assembleRelease")
+  end
+
   desc "Submit a new Alpha Build to Android Alpha and Crashlytics Beta"
   lane :alpha do
-    gradle(task: "assembleRelease")
     supply(track: "alpha")
   end
 
@@ -17,7 +21,6 @@ platform :android do
 
   desc "Deploy a new version to the Google Play"
   lane :deploy do
-    gradle(task: "assembleRelease")
     supply
   end
 end
