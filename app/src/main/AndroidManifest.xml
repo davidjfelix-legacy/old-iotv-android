@@ -2,7 +2,16 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="tv.mg4.app">
 
+    <!--Permission to use the internet to interact with services-->
     <uses-permission android:name="android.permission.INTERNET" />
+
+    <!--Permissions for recording-->
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+
+    <!--Feature to use camera, but not necessary for limited functionality-->
+    <uses-feature android:name="android.hardware.camera" android:required="false" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"

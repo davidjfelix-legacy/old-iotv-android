@@ -6,13 +6,13 @@ android:
   - tools
   - platform-tools
   - build-tools-25.0.0
+  - android-25
   - android-23
-  - android-21
   - extra-google-google_play_services
   - extra-google-m2repository
   - extra-android-m2repository
   - addon-google_apis-google-19
-  - sys-img-armeabi-v7a-android-21
+  - sys-img-armeabi-v7a-android-23
 env:
   global:
   - secure: RKNEdMlUMqxtrDg4hP12vypK7dHQjO+19mdUfQ+Iat+F1SJSKnPbJDF53/zMSscGum49WTpScOcpvOoTylN9+gOAyqC0orZPJz8b9ptyxxMdRhUC/ZZACYuf9o4X/aiTYdS4ArrCI5wHaFgGpx5u1cuKKHbKPBMSi5XDcnhBvUdbCcwomJ5r/mhnxFu2zTW/rkVdvsiFhmWk4WbkJYgCESIgcPPk6L66XwQ3gBiOcbtvTc6O2cCBP1uVzcG3nroDB2z4KSOFwfA3O9rFQ9HR7jgtgWEyFHuaSnXdUQ9bD12SEI9xK/ByhZBN4EcC+L+WI0AoY5CPWbNgYJomm4FG7Tv+qzkUkHV4GWCZjEAnKP2Ha0Mr32uOTgJ4D0bquXZb6N8mvmQTivsh78GiclPyN0gA/YQbcHhY5a4FfkL1YODjw3DnMQmbowzbrZa5wxXdn8enAS9/+L+eZM9VQW/JnwNGRsrP8qXMOOZTV7q8mNs7ZvzPkqOat7C0/ZiPcErOxFpKpMerWuSVUOlB3rFb7rHv7XNMdG7qGYDHUIOVlk8vnE6494ZgvmAu1gwnj5DBozd2R3zfAc0/Ms3VH4xOghwfdn6r+aSGaspiK7lsW6qzTCvEtmcc647CQfNxY01OKFlYriotslDuJyXOYCc81ZQvPujqMjzHOifW6ScRC3M=
