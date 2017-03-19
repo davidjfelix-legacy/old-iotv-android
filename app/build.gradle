@@ -18,8 +18,8 @@ android {
         applicationId "tv.mg4.app"
         minSdkVersion 23
         targetSdkVersion 25
-        versionCode 4
-        versionName "0.0.3"
+        versionCode 5
+        versionName "0.0.4"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
