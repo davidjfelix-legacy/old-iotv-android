@@ -15,16 +15,16 @@ env:
   - secure: DyRAF66BaHdFUBpSBgXSmXeK3ZFTzAThSFGzNyg14plqLpYcPlL44k210hPNSnJA01uJTNfRCTHVTBle/Imy/6sYcDiAPFolKigzBazsQUqz0cZcVnfh1knU4qvTAjJl0/6NIFisIGoX7Ed/SmEueXKhW3aQ63uRE8t+M+f/0WYKLiql2/UhIpbrPnNaTCx5i+c5WJ8LqCicr1bzkT3fofKuyRLoDqt9QuHZUJOMhoHMbY1lGubyhDiqXzL9v77ZBVG5+w//tpcmAaDz32mWJqFuKJqh4OOOy5eN5tP1IgJM8MpKfR+4ICfIC5Rvba3UVEVowrmvdXQKgznMzVCKtXwG2IM3MBvL+S4y5HfTd22TNa7G8/eWcnyzsIqib4KMa3WdIknl4Or20N+DoZSAaMKgtz/IWn/ZXR4pG61rzixfpCAPlzHEY879fj6okahJhicEmmuztZcw+C6Y1NAQvxXluRJ901Y8UvNjOXQCp/54UIHKWbKlz/LxG45GsVhS1Cnt73Xdn/YH31CR5GFSq6Kfv4YNFrlLpCo1GLSGDxB2l1HWPTTpFUVG0tg5h75VSU2aTn+TrUPXWcvmNe/fPdfkyBHhwou2M9XsaAIf2+tbaHOvfWI7pPACzQXKnsJT53hL8ixGbY5POWmCg7LjmOtJs2fCYnl5ol1yFdJ8yZI=
   - secure: k+LNa8jASCOCGJCn49jFtQAsZTniUxoZmxReDAVa0is82xy8Gk44PTMIu98B4H1cLdHrIx7RSJtrAMURvtonNDdHDHhwdz97MDBvfN/sLhheCVpY7boPoEgVK/z9W/Z5esuC4rIWRgKJUQ+QzW0JtNdUlijnarkl2RMPRYM4F5dwY5AsSgIJyISMJEnxLv1DSIcI0C62xQzAf19LD2Y1D2yz3b1gQimNd9QkMStZn5iMv3MMq2F8xBTNZ2eEWv0z1zawMsxcaUeW5VhWwHhsUbuebqwYUTF3LEwXOsaSx0OZV804YNETPc/gFBsZxGJB2ZWN23qt8dVzRiHkEIHsYNdvK69EFk7Dm1q2c5b/gADCUgpq3YIlMI89yGU19bU+A9KVv1h2DeqGUX7NS/ZAJAs6kudNylD1eTs8V3CjqTeCbWOSj9EzwAL4MXgLUh0qg9uzV4hwUWIIuDrgg44ZgEJeBl2mq1G52zDmxnbxbxDQwAAi+Wd3b6tip8cC0qznY9DIoCkYndbtxepcpnrJ3AqNiYeMBSNTAJ6PWveSZpUSOer9ZgxpXM6U95/168OrNLIYrBKYvtLMcqfyY79pzwN2Z8sdeh3yIDIEbWEwZtvGu1vdDVHZ63gOC2lRcBrPkKq+4WDkvt9Glm4ZfKRHqkPcSidTKf9I05XeNcmuhj8=
 before_install:
-- $ANDROID_HOME/tools/sdkmanager "platforms;android-O" --channel=3
-- $ANDROID_HOME/tools/sdkmanager "build-tools;26.0.0-rc1" --channel=3
-- $ANDROID_HOME/tools/sdkmanager "build-tools;26.0.0-rc1" --channel=3
+- echo y | ${ANDROID_HOME%/}/tools/sdkmanager "platforms;android-O" --channel=3
+- echo y | ${ANDROID_HOME%/}/tools/sdkmanager "build-tools;26.0.0-rc1" --channel=3
+- echo y | ${ANDROID_HOME%/}/tools/sdkmanager "build-tools;26.0.0-rc1" --channel=3
 - openssl aes-256-cbc -k "$fabric_encryption_key" -in app/fabric.properties.enc -out
   app/fabric.properties -d
 - openssl aes-256-cbc -k "$keystore_encryption_key" -in app/releaseKeystore.jks.enc
   -out app/releaseKeystore.jks -d
 - openssl aes-256-cbc -k "$google_play_encryption_key" -in app/googlePlayAPICredentials.json.enc
   -out app/googlePlayAPICredentials.json -d
-- mkdir "$ANDROID_HOME/licenses" || true
+- mkdir "${ANDROID_HOME%/}/licenses" || true
 - echo -e "\n8933bad161af4178b1185d1a37fbf41ea5269c55" > "$ANDROID_HOME/licenses/android-sdk-license"
 - echo -e "\n84831b9409646a918e30573bab4c9c91346d8abd" > "$ANDROID_HOME/licenses/android-sdk-preview-license"
 - chmod +x gradlew
