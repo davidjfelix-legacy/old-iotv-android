@@ -12,8 +12,8 @@ android {
             storePassword System.getenv('store_password')
         }
     }
-    compileSdkVersion 25
-    buildToolsVersion '25.0.0'
+    compileSdkVersion 'android-O'
+    buildToolsVersion '26.0.0-rc1'
     defaultConfig {
         applicationId "tv.mg4.app"
         minSdkVersion 23
@@ -40,8 +40,8 @@ android {
 dependencies {
     // Compile
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile 'com.android.support:support-v13:25.3.0'
-    compile 'com.android.support:appcompat-v7:25.3.0'
+    compile 'com.android.support:support-v13:26.0.0-alpha1'
+    compile 'com.android.support:appcompat-v7:26.0.0-alpha1'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
     compile 'com.jakewharton:butterknife:8.5.1'
@@ -51,15 +51,12 @@ dependencies {
     // Anko resources
     compile 'org.jetbrains.anko:anko-sdk23:0.9.1'
     compile 'org.jetbrains.anko:anko-appcompat-v7:0.9.1'
-
     // Process Butterknife annotations
     kapt 'com.jakewharton:butterknife-compiler:8.5.1'
-
     // AndroidTest Compile
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-
     // Test Compile
     testCompile 'junit:junit:4.12'
 }
