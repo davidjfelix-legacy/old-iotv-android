@@ -12,6 +12,10 @@ platform :android do
   desc "Submit a new Alpha Build to Android Alpha and Crashlytics Beta"
   lane :alpha do
     supply(track: "alpha", apk: "app/build/outputs/apk/app-release.apk")
+    crashlytics(
+      api_token: "4b7b97384889bb0454d04c0092e637476844024e",
+      apk_path: "app/build/outputs/apk/app-release.apk",
+    )
   end
 
   desc "Submit a new Beta Build to Android Beta"

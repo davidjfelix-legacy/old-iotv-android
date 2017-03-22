@@ -97,7 +97,7 @@ class CameraRecordFragment : Fragment(), View.OnClickListener, FragmentCompat.On
                 }
             }
 
-            override fun onCreateDialog(savedInstanceState: Bundle): Dialog {
+            override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
                 return AlertDialog.Builder(activity)
                         .setMessage(arguments.getString(ARG_MESSAGE))
                         .setPositiveButton(android.R.string.ok) { _, _ -> activity.finish() }
@@ -130,7 +130,7 @@ class CameraRecordFragment : Fragment(), View.OnClickListener, FragmentCompat.On
         }
 
         override fun onSurfaceTextureSizeChanged(surfaceTexture: SurfaceTexture?, width: Int, height: Int) {
-            confifureTransform(width, height)
+            configureTransform(width, height)
         }
 
         override fun onSurfaceTextureDestroyed(surfaceTexture: SurfaceTexture?): Boolean {
@@ -143,7 +143,7 @@ class CameraRecordFragment : Fragment(), View.OnClickListener, FragmentCompat.On
 
     private var mPreviewSize: Size? = null
     private lateinit var mVideoSize: Size
-    private lateinit var mMediaRecorder: MediaRecorder
+    private var mMediaRecorder: MediaRecorder? = null
     private var mIsRecordingVideo = false
     private lateinit var mBackgroundThread: HandlerThread
     private lateinit var mBackgroundHandler: Handler
@@ -154,7 +154,7 @@ class CameraRecordFragment : Fragment(), View.OnClickListener, FragmentCompat.On
             mCameraDevice = cameraDevice
             startPreview()
             mCameraOpenCloseLock.release()
-            confifureTransform(mTextureView.width, mTextureView.height)
+            configureTransform(mTextureView.width, mTextureView.height)
         }
 
         override fun onDisconnected(cameraDevice: CameraDevice) {
@@ -171,9 +171,9 @@ class CameraRecordFragment : Fragment(), View.OnClickListener, FragmentCompat.On
     }
 
     private var mSensorOrientation: Int? = null
-    private lateinit var mNextVideoAbsolutePath: String
+    private var mNextVideoAbsolutePath: String = ""
     private lateinit var mPreviewBuilder: CaptureRequest.Builder
-    private lateinit var mRecorderSurface: Surface
+    private var mRecorderSurface: Surface? = null
     private lateinit var mCameraManager: CameraManager
 
 
@@ -184,6 +184,7 @@ class CameraRecordFragment : Fragment(), View.OnClickListener, FragmentCompat.On
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         mTextureView = view?.findViewById(R.id.texture) as AutoFitTextureView
         mButtonVideo = view.findViewById(R.id.video) as Button
+        mButtonVideo.z = -10.toFloat()
         mButtonVideo.setOnClickListener(this)
     }
 
@@ -282,7 +283,7 @@ class CameraRecordFragment : Fragment(), View.OnClickListener, FragmentCompat.On
             } else {
                 mTextureView.setAspectRatio(mPreviewSize!!.height, mPreviewSize!!.width)
             }
-            confifureTransform(width, height)
+            configureTransform(width, height)
             mMediaRecorder = MediaRecorder()
             mCameraManager.openCamera(cameraId, mStateCallback, null)
         } catch (e: CameraAccessException) {
@@ -303,7 +304,7 @@ class CameraRecordFragment : Fragment(), View.OnClickListener, FragmentCompat.On
             mCameraOpenCloseLock.acquire()
             closePreviewSession()
             mCameraDevice?.close()
-            mMediaRecorder.release()
+            mMediaRecorder?.release()
         } catch (e: InterruptedException) {
             throw RuntimeException("Interrupted while trying to lock camera closing.")
         } finally {
@@ -354,7 +355,7 @@ class CameraRecordFragment : Fragment(), View.OnClickListener, FragmentCompat.On
         builder.set(CaptureRequest.CONTROL_MODE, CameraMetadata.CONTROL_MODE_AUTO)
     }
 
-    private fun confifureTransform(viewWidth: Int, viewHeight: Int) {
+    private fun configureTransform(viewWidth: Int, viewHeight: Int) {
         if (null == mTextureView || null == mPreviewSize || null == activity) {
             return
         }
@@ -377,24 +378,25 @@ class CameraRecordFragment : Fragment(), View.OnClickListener, FragmentCompat.On
     }
 
     private fun setUpMediaRecorder() {
-        mMediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC)
-        mMediaRecorder.setVideoSource(MediaRecorder.VideoSource.SURFACE)
-        mMediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4)
+
+        mMediaRecorder?.setAudioSource(MediaRecorder.AudioSource.MIC)
+        mMediaRecorder?.setVideoSource(MediaRecorder.VideoSource.SURFACE)
+        mMediaRecorder?.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4)
         if (mNextVideoAbsolutePath.isEmpty()) {
             mNextVideoAbsolutePath = getVideoFilePath(activity)
         }
-        mMediaRecorder.setOutputFile(mNextVideoAbsolutePath)
-        mMediaRecorder.setVideoEncodingBitRate(10000000)
-        mMediaRecorder.setVideoFrameRate(30)
-        mMediaRecorder.setVideoSize(mVideoSize.width, mVideoSize.height)
-        mMediaRecorder.setVideoEncoder(MediaRecorder.VideoEncoder.H264)
-        mMediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC)
+        mMediaRecorder?.setOutputFile(mNextVideoAbsolutePath)
+        mMediaRecorder?.setVideoEncodingBitRate(10000000)
+        mMediaRecorder?.setVideoFrameRate(30)
+        mMediaRecorder?.setVideoSize(mVideoSize.width, mVideoSize.height)
+        mMediaRecorder?.setVideoEncoder(MediaRecorder.VideoEncoder.H264)
+        mMediaRecorder?.setAudioEncoder(MediaRecorder.AudioEncoder.AAC)
         val rotation = activity.windowManager.defaultDisplay.rotation
         when (mSensorOrientation) {
-            SensorOrientation.default.degrees -> mMediaRecorder.setOrientationHint(DEFAULT_ORIENTATIONS.get(rotation))
-            SensorOrientation.inverse.degrees -> mMediaRecorder.setOrientationHint(INVERSE_ORIENTATIONS.get(rotation))
+            SensorOrientation.default.degrees -> mMediaRecorder?.setOrientationHint(DEFAULT_ORIENTATIONS.get(rotation))
+            SensorOrientation.inverse.degrees -> mMediaRecorder?.setOrientationHint(INVERSE_ORIENTATIONS.get(rotation))
         }
-        mMediaRecorder.prepare()
+        mMediaRecorder?.prepare()
     }
 
     private fun getVideoFilePath(context: Context): String {
@@ -411,7 +413,7 @@ class CameraRecordFragment : Fragment(), View.OnClickListener, FragmentCompat.On
             val texture = mTextureView.surfaceTexture
             texture.setDefaultBufferSize(mPreviewSize!!.width, mPreviewSize!!.height)
             mPreviewBuilder = mCameraDevice!!.createCaptureRequest(CameraDevice.TEMPLATE_RECORD)
-            val surfaces = ArrayList<Surface>()
+            val surfaces = ArrayList<Surface?>()
 
             // Set up surface for camera preview
             val previewSurface = Surface(texture)
@@ -419,7 +421,7 @@ class CameraRecordFragment : Fragment(), View.OnClickListener, FragmentCompat.On
             mPreviewBuilder.addTarget(previewSurface)
 
             // Set up surface for the mediarecorder
-            mRecorderSurface = mMediaRecorder.surface
+            mRecorderSurface = mMediaRecorder?.surface
             surfaces.add(mRecorderSurface)
             mPreviewBuilder.addTarget(mRecorderSurface)
 
@@ -434,7 +436,7 @@ class CameraRecordFragment : Fragment(), View.OnClickListener, FragmentCompat.On
                         mIsRecordingVideo = true
 
                         // Start recording
-                        mMediaRecorder.start()
+                        mMediaRecorder?.start()
                     }
                 }
 
@@ -459,8 +461,8 @@ class CameraRecordFragment : Fragment(), View.OnClickListener, FragmentCompat.On
         mButtonVideo.setText(R.string.record)
 
         // Stop recording
-        mMediaRecorder.stop()
-        mMediaRecorder.reset()
+        mMediaRecorder?.stop()
+        mMediaRecorder?.reset()
 
         Toast.makeText(activity, "Videosaved: " + mNextVideoAbsolutePath, Toast.LENGTH_SHORT).show()
         Log.d(TAG, "Video saved: " + mNextVideoAbsolutePath)
