@@ -5,6 +5,7 @@ android:
   components:
   - tools
   - platform-tools
+  - platform-tools-preview
   - build-tools-26.0.0-rc1
   - android-O
   - android-23
