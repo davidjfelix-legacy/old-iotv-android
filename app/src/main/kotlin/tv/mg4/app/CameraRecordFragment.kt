@@ -97,7 +97,7 @@ class CameraRecordFragment : Fragment(), View.OnClickListener, FragmentCompat.On
                 }
             }
 
-            override fun onCreateDialog(savedInstanceState: Bundle): Dialog {
+            override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
                 return AlertDialog.Builder(activity)
                         .setMessage(arguments.getString(ARG_MESSAGE))
                         .setPositiveButton(android.R.string.ok) { _, _ -> activity.finish() }
