@@ -18,7 +18,7 @@ env:
 before_install:
 - wget --quiet --output-document=android-sdk.zip https://dl.google.com/android/repository/tools_r25.2.3-linux.zip
 - unzip android-sdk.zip -d android-sdk
-- export ANDROID_HOME=${PWD%/}/android-sdk-linux
+- export ANDROID_HOME=${PWD%/}/android-sdk
 - echo y | ${ANDROID_HOME%/}/tools/bin/sdkmanager tools --channel=3
 - echo y | ${ANDROID_HOME%/}/tools/bin/sdkmanager "platforms;android-O" --channel=3
 - echo y | ${ANDROID_HOME%/}/tools/bin/sdkmanager "build-tools;26.0.0-rc1" --channel=3
