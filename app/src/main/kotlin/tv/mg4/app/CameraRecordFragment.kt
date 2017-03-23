@@ -382,7 +382,7 @@ class CameraRecordFragment : Fragment(), View.OnClickListener, FragmentCompat.On
 
         mMediaRecorder?.setAudioSource(MediaRecorder.AudioSource.MIC)
         mMediaRecorder?.setVideoSource(MediaRecorder.VideoSource.SURFACE)
-        mMediaRecorder?.setOutputFormat(MediaRecorder.OutputFormat.MPEG_2_TS)
+        mMediaRecorder?.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4)
         if (mNextVideoAbsolutePath.isEmpty()) {
             mNextVideoAbsolutePath = getVideoFilePath(activity)
         }
