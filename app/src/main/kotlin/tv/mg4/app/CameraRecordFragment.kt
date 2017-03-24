@@ -183,8 +183,8 @@ class CameraRecordFragment : Fragment(), View.OnClickListener, FragmentCompat.On
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         view?.let {
-            mTextureView = view.findViewById<AutoFitTextureView>(R.id.texture)
-            mButtonVideo = view.findViewById<Button>(R.id.video)
+            mTextureView = view.findViewById(R.id.texture) as AutoFitTextureView
+            mButtonVideo = view.findViewById(R.id.video) as Button
             mButtonVideo.z = -10.toFloat()
             mButtonVideo.setOnClickListener(this)
         }
