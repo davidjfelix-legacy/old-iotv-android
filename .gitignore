@@ -36,8 +36,9 @@ captures/
 *.iml
 /.idea/
 
-# Keystore files
+# Keystore files, except a shared debug key
 *.jks
+!/app/debugKeystore.jks
 
 # Fabric secret config
 fabric.properties

@@ -11,6 +11,12 @@ android {
             storeFile file('releaseKeystore.jks')
             storePassword System.getenv('store_password')
         }
+        debug {
+            keyAlias 'key0'
+            keyPassword 'debugPassword'
+            storeFile file('debugKeystore.jks')
+            storePassword 'debugPassword'
+        }
     }
     compileSdkVersion 25
     buildToolsVersion '25.0.0'
@@ -18,8 +24,8 @@ android {
         applicationId "tv.mg4.app"
         minSdkVersion 23
         targetSdkVersion 25
-        versionCode 7
-        versionName "0.0.7"
+        versionCode 8
+        versionName "0.0.8"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -28,6 +34,11 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             zipAlignEnabled true
             signingConfig signingConfigs.release
+        }
+        debug {
+            debuggable true
+            zipAlignEnabled true
+            signingConfig signingConfigs.debug
         }
     }
     sourceSets {
@@ -38,28 +49,35 @@ android {
 }
 
 dependencies {
-    // Compile
     compile fileTree(include: ['*.jar'], dir: 'libs')
+    // Android support libraries
     compile 'com.android.support:support-v13:25.3.0'
     compile 'com.android.support:appcompat-v7:25.3.0'
+    compile 'com.android.support:support-v4:25.3.0'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    // Kotlin stdlib
     compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+    // Butterknife injection and annotation processing
     compile 'com.jakewharton:butterknife:8.5.1'
-    compile('com.crashlytics.sdk.android:crashlytics:2.6.7@aar') {
-        transitive = true;
-    }
+    kapt 'com.jakewharton:butterknife-compiler:8.5.1'
+    // Retrofit HTTP client with okhttp and okio
+    compile 'com.squareup.retrofit2:retrofit:2.2.0'
+    compile 'com.squareup.retrofit2:adapter-rxjava2:2.2.0'
+    compile 'com.squareup.okhttp3:okhttp:3.6.0'
+    compile 'com.squareup.okio:okio:1.11.0'
+    // RxJava and the mad Rx insanity
+    compile 'io.reactivex.rxjava2:rxjava:2.0.7'
+    compile 'io.reactivex.rxjava2:rxkotlin:2.0.0'
+    compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
+    // Crashlytics
+    compile('com.crashlytics.sdk.android:crashlytics:2.6.7@aar') { transitive = true }
     // Anko resources
     compile 'org.jetbrains.anko:anko-sdk23:0.9.1'
     compile 'org.jetbrains.anko:anko-appcompat-v7:0.9.1'
-
-    // Process Butterknife annotations
-    kapt 'com.jakewharton:butterknife-compiler:8.5.1'
-
     // AndroidTest Compile
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-
     // Test Compile
     testCompile 'junit:junit:4.12'
 }

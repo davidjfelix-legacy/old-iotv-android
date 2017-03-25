@@ -182,10 +182,12 @@ class CameraRecordFragment : Fragment(), View.OnClickListener, FragmentCompat.On
     }
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
-        mTextureView = view?.findViewById(R.id.texture) as AutoFitTextureView
-        mButtonVideo = view.findViewById(R.id.video) as Button
-        mButtonVideo.z = -10.toFloat()
-        mButtonVideo.setOnClickListener(this)
+        view?.let {
+            mTextureView = view.findViewById(R.id.texture) as AutoFitTextureView
+            mButtonVideo = view.findViewById(R.id.video) as Button
+            mButtonVideo.z = -10.toFloat()
+            mButtonVideo.setOnClickListener(this)
+        }
     }
 
     override fun onResume() {
@@ -203,7 +205,6 @@ class CameraRecordFragment : Fragment(), View.OnClickListener, FragmentCompat.On
         stopBackgroundThread()
         super.onPause()
     }
-
 
     override fun onClick(view: View) {
         when (view.id) {
