@@ -1,46 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="tv.mg4.app">
+    package="tv.mg4.app">
 
-    <!-- Permission to use the internet to interact with services -->
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <!--Permission to use the internet to interact with services-->
+    <uses-permission android:name="android.permission.INTERNET" />
 
-    <!-- Permissions for recording -->
-    <uses-permission android:name="android.permission.CAMERA"/>
-    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+    <!--Permissions for recording-->
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
-    <!-- Feature to use camera, but not necessary for limited functionality -->
-    <uses-feature
-        android:name="android.hardware.camera"
-        android:required="false"/>
+    <!--Feature to use camera, but not necessary for limited functionality-->
+    <uses-feature android:name="android.hardware.camera" android:required="false" />
 
     <application
-        android:name=".Mg4Application"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".MainActivity">
-        </activity>
-
-        <meta-data
-            android:name="io.fabric.ApiKey"
-            android:value="4b7b97384889bb0454d04c0092e637476844024e"/>
-
-        <activity
-            android:name=".CameraActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="@string/app_name"
-            android:theme="@style/FullscreenTheme">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <service
-            android:name=".services.UploadService"
-            android:exported="false" />
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="4b7b97384889bb0454d04c0092e637476844024e" />
     </application>
+
 </manifest>

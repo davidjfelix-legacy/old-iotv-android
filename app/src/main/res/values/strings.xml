@@ -7,8 +7,4 @@
     <string name="app_name">Mg4.tv</string>
     <string name="main_activity_label">Record</string>
     <string name="intro_message">Test out recording</string>
-
-    <string name="title_activity_camera">CameraActivity</string>
-    <string name="dummy_button">Dummy Button</string>
-    <string name="dummy_content">DUMMY\nCONTENT</string>
 </resources>
