@@ -12,5 +12,6 @@ class CameraActivity : AppCompatActivity() {
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
         super.onPostCreate(savedInstanceState)
+        setContentView(R.layout.activity_camera)
     }
 }

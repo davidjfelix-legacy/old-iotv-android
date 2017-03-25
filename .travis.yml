@@ -19,9 +19,9 @@ before_install:
 - wget --quiet --output-document=android-sdk.zip https://dl.google.com/android/repository/tools_r25.2.3-linux.zip
 - unzip android-sdk.zip -d android-sdk
 - export ANDROID_HOME=${PWD%/}/android-sdk
-- echo y | ${ANDROID_HOME%/}/tools/bin/sdkmanager tools --channel=3
-- echo y | ${ANDROID_HOME%/}/tools/bin/sdkmanager "platforms;25" --channel=3
-- echo y | ${ANDROID_HOME%/}/tools/bin/sdkmanager "build-tools;26.0.0-rc1" --channel=3
+- echo y | ${ANDROID_HOME%/}/tools/bin/sdkmanager tools --channel=1
+- echo y | ${ANDROID_HOME%/}/tools/bin/sdkmanager "platforms;android-25" --channel=1
+- echo y | ${ANDROID_HOME%/}/tools/bin/sdkmanager "build-tools;25.0.0" --channel=1
 - export PATH=${PATH}:${PWD%/}/android-sdk-linux/platform-tools/
 - openssl aes-256-cbc -k "$fabric_encryption_key" -in app/fabric.properties.enc -out
   app/fabric.properties -d
