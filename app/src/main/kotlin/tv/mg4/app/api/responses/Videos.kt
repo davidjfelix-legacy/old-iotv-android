@@ -12,7 +12,7 @@ data class VideoAttribues(
         var isBuffered: Boolean?
 )
 
-enum class VideoType(repr: String) {
+enum class VideoType(val repr: String) {
     LIVE("LIVE"),
     VOD("VOD")
 }

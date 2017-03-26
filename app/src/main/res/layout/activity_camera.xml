@@ -4,10 +4,5 @@
              android:id="@+id/container"
              android:layout_width="match_parent"
              android:layout_height="match_parent"
-             tools:context="tv.mg4.app.MainActivity">
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/app_name"
-        android:gravity="center"/>
-</FrameLayout>
+             android:background="#000"
+             tools:context="tv.mg4.app.CameraActivity"/>

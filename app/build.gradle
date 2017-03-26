@@ -54,26 +54,40 @@ dependencies {
     compile 'com.android.support:support-v13:25.3.0'
     compile 'com.android.support:appcompat-v7:25.3.0'
     compile 'com.android.support:support-v4:25.3.0'
+    compile 'com.android.support:design:25.3.0'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
+
     // Kotlin stdlib
     compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+
     // Butterknife injection and annotation processing
     compile 'com.jakewharton:butterknife:8.5.1'
     kapt 'com.jakewharton:butterknife-compiler:8.5.1'
+
     // Retrofit HTTP client with okhttp and okio
     compile 'com.squareup.retrofit2:retrofit:2.2.0'
     compile 'com.squareup.retrofit2:adapter-rxjava2:2.2.0'
     compile 'com.squareup.okhttp3:okhttp:3.6.0'
     compile 'com.squareup.okio:okio:1.11.0'
+
     // RxJava and the mad Rx insanity
     compile 'io.reactivex.rxjava2:rxjava:2.0.7'
     compile 'io.reactivex.rxjava2:rxkotlin:2.0.0'
     compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
+
     // Crashlytics
     compile('com.crashlytics.sdk.android:crashlytics:2.6.7@aar') { transitive = true }
+
     // Anko resources
     compile 'org.jetbrains.anko:anko-sdk23:0.9.1'
     compile 'org.jetbrains.anko:anko-appcompat-v7:0.9.1'
+    compile 'org.jetbrains.anko:anko-design:0.9.1'
+    compile 'org.jetbrains.anko:anko-recyclerview-v7:0.9.1'
+
+    // Firebase
+    compile 'com.google.firebase:firebase-database:10.0.1'
+    compile 'com.google.firebase:firebase-auth:10.0.1'
+
     // AndroidTest Compile
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
@@ -93,3 +107,5 @@ repositories {
 kapt {
     generateStubs = true
 }
+
+apply plugin: 'com.google.gms.google-services'

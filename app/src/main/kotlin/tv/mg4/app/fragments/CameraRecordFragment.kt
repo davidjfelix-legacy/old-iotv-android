@@ -1,6 +1,7 @@
-package tv.mg4.app
+package tv.mg4.app.fragments
 
 import android.Manifest
+import android.R
 import android.app.AlertDialog
 import android.app.Dialog
 import android.app.DialogFragment
@@ -24,6 +25,7 @@ import android.util.SparseIntArray
 import android.view.*
 import android.widget.Button
 import android.widget.Toast
+import tv.mg4.app.AutoFitTextureView
 import java.io.IOException
 import java.lang.RuntimeException
 import java.util.concurrent.Semaphore
@@ -100,7 +102,7 @@ class CameraRecordFragment : Fragment(), View.OnClickListener, FragmentCompat.On
             override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
                 return AlertDialog.Builder(activity)
                         .setMessage(arguments.getString(ARG_MESSAGE))
-                        .setPositiveButton(android.R.string.ok) { _, _ -> activity.finish() }
+                        .setPositiveButton(R.string.ok) { _, _ -> activity.finish() }
                         .create()
             }
         }
@@ -108,10 +110,10 @@ class CameraRecordFragment : Fragment(), View.OnClickListener, FragmentCompat.On
         class ConfirmationDialog : DialogFragment() {
             override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
                 return AlertDialog.Builder(activity)
-                        .setMessage(R.string.permission_request)
-                        .setPositiveButton(android.R.string.ok,
+                        .setMessage(tv.mg4.app.R.string.permission_request)
+                        .setPositiveButton(R.string.ok,
                                 { _, _ -> FragmentCompat.requestPermissions(parentFragment, VIDEO_PERMISSIONS, REQUEST_VIDEO_PERMISSIONS) })
-                        .setNegativeButton(android.R.string.cancel,
+                        .setNegativeButton(R.string.cancel,
                                 { _, _ -> parentFragment.activity.finish() })
                         .create()
             }
@@ -178,13 +180,13 @@ class CameraRecordFragment : Fragment(), View.OnClickListener, FragmentCompat.On
 
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater?.inflate(R.layout.fragment_camera_record, container, false)
+        return inflater?.inflate(tv.mg4.app.R.layout.fragment_camera_record, container, false)
     }
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         view?.let {
-            mTextureView = view.findViewById(R.id.texture) as AutoFitTextureView
-            mButtonVideo = view.findViewById(R.id.video) as Button
+            mTextureView = view.findViewById(tv.mg4.app.R.id.texture) as AutoFitTextureView
+            mButtonVideo = view.findViewById(tv.mg4.app.R.id.video) as Button
             mButtonVideo.z = -10.toFloat()
             mButtonVideo.setOnClickListener(this)
         }
@@ -208,7 +210,7 @@ class CameraRecordFragment : Fragment(), View.OnClickListener, FragmentCompat.On
 
     override fun onClick(view: View) {
         when (view.id) {
-            R.id.video -> {
+            tv.mg4.app.R.id.video -> {
                 if (mIsRecordingVideo) {
                     stopRecordingVideo()
                 } else {
@@ -246,11 +248,11 @@ class CameraRecordFragment : Fragment(), View.OnClickListener, FragmentCompat.On
         if (requestCode == REQUEST_VIDEO_PERMISSIONS) {
             if (grantResults.size == VIDEO_PERMISSIONS.size) {
                 if (grantResults.any { it != PackageManager.PERMISSION_GRANTED }) {
-                    ErrorDialog.newInstance(getString(R.string.permission_request))
+                    ErrorDialog.newInstance(getString(tv.mg4.app.R.string.permission_request))
                             .show(childFragmentManager, FRAGMENT_DIALOG)
                 }
             } else {
-                ErrorDialog.newInstance(getString(R.string.permission_request))
+                ErrorDialog.newInstance(getString(tv.mg4.app.R.string.permission_request))
                         .show(childFragmentManager, FRAGMENT_DIALOG)
             }
         } else {
@@ -293,7 +295,7 @@ class CameraRecordFragment : Fragment(), View.OnClickListener, FragmentCompat.On
         } catch (e: NullPointerException) {
             // Currently an NPE is thrown when the Camera2API is used but not supported on the
             // device this code runs.
-            ErrorDialog.newInstance(getString(R.string.camera_error))
+            ErrorDialog.newInstance(getString(tv.mg4.app.R.string.camera_error))
                     .show(childFragmentManager, FRAGMENT_DIALOG)
         } catch (e: InterruptedException) {
             throw RuntimeException("Interrupted while trying to lock camera opening.")
@@ -433,7 +435,7 @@ class CameraRecordFragment : Fragment(), View.OnClickListener, FragmentCompat.On
                     updatePreview()
                     activity.runOnUiThread {
                         // UI
-                        mButtonVideo.setText(R.string.stop)
+                        mButtonVideo.setText(tv.mg4.app.R.string.stop)
                         mIsRecordingVideo = true
 
                         // Start recording
@@ -459,7 +461,7 @@ class CameraRecordFragment : Fragment(), View.OnClickListener, FragmentCompat.On
     private fun stopRecordingVideo() {
         // UI
         mIsRecordingVideo = false
-        mButtonVideo.setText(R.string.record)
+        mButtonVideo.setText(tv.mg4.app.R.string.record)
 
         // Stop recording
         mMediaRecorder?.stop()
