@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "790062285088",
+    "firebase_url": "https://iotv-1e541.firebaseio.com",
+    "project_id": "iotv-1e541",
+    "storage_bucket": "iotv-1e541.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:790062285088:android:5c38151cb1b1473a",
+        "android_client_info": {
+          "package_name": "tv.mg4.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "790062285088-5vtpovi9hmc71u4rua8e97g8p9heu3dr.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "tv.mg4.app",
+            "certificate_hash": "48d5331a67b4146f45e85e1f41310a5e508a930b"
+          }
+        },
+        {
+          "client_id": "790062285088-ph1f58327dsfgmcgn0mn4evv6sb5klhh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAIICr7aNHEobXAofxUcM6CLbvyGCbkZjc"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "790062285088-ph1f58327dsfgmcgn0mn4evv6sb5klhh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
