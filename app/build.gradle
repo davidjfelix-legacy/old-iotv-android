@@ -24,8 +24,8 @@ android {
         applicationId "tv.mg4.app"
         minSdkVersion 23
         targetSdkVersion 25
-        versionCode 10
-        versionName "0.0.10"
+        versionCode 11
+        versionName "0.0.11"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -85,8 +85,11 @@ dependencies {
     compile 'org.jetbrains.anko:anko-recyclerview-v7:0.9.1'
 
     // Firebase
-    compile 'com.google.firebase:firebase-database:10.0.1'
-    compile 'com.google.firebase:firebase-auth:10.0.1'
+    compile 'com.google.firebase:firebase-database:10.2.1'
+    compile 'com.google.firebase:firebase-auth:10.2.1'
+
+    // Google Sign in
+    compile 'com.google.android.gms:play-services-auth:10.2.1'
 
     // AndroidTest Compile
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
@@ -108,4 +111,5 @@ kapt {
     generateStubs = true
 }
 
+// This has to be at the end. Because gradle is stupid.
 apply plugin: 'com.google.gms.google-services'

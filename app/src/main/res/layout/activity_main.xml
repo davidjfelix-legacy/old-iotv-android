@@ -6,5 +6,52 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="tv.mg4.app.MainActivity"
-    android:orientation="vertical"/>
+    android:orientation="vertical"
+    tools:context="tv.mg4.app.MainActivity">
+
+    <TextView
+        android:id="@+id/login_email_label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:labelFor="@+id/login_email_text"
+        android:text="@string/login_email_text"/>
+
+    <EditText
+        android:id="@+id/login_email_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textEmailAddress"/>
+
+    <TextView
+        android:id="@+id/login_password_label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:labelFor="@+id/login_password_text"
+        android:text="@string/login_password_text"/>
+
+    <EditText
+        android:id="@+id/login_password_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPassword"/>
+
+    <Button
+        android:id="@+id/login_email_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/login_sign_in"/>
+
+    <Button
+        android:id="@+id/login_google_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/login_sign_in_with_google"/>
+
+    <Button
+        android:id="@+id/login_facebook_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/login_sign_in_with_facebook"/>
+</LinearLayout>
