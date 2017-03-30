@@ -91,6 +91,9 @@ dependencies {
     // Google Sign in
     compile 'com.google.android.gms:play-services-auth:10.2.1'
 
+    // Facebook Sign in
+    compile 'com.facebook.android:facebook-android-sdk:[4,5)'
+
     // AndroidTest Compile
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'

@@ -43,15 +43,14 @@
         android:layout_height="wrap_content"
         android:text="@string/login_sign_in"/>
 
-    <Button
+    <com.google.android.gms.common.SignInButton
         android:id="@+id/login_google_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/login_sign_in_with_google"/>
 
-    <Button
+    <com.facebook.login.widget.LoginButton
         android:id="@+id/login_facebook_button"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/login_sign_in_with_facebook"/>
+        android:layout_height="wrap_content"/>
 </LinearLayout>
