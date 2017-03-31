@@ -12,7 +12,6 @@ import com.facebook.FacebookCallback
 import com.facebook.FacebookException
 import com.facebook.login.LoginManager
 import com.facebook.login.LoginResult
-import com.facebook.login.widget.LoginButton
 import com.google.android.gms.auth.api.Auth
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -20,6 +19,7 @@ import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.api.GoogleApiClient
 import com.google.firebase.auth.FacebookAuthProvider
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.GoogleAuthProvider
 
 
@@ -72,6 +72,8 @@ class LoginActivity : AppCompatActivity(), GoogleApiClient.OnConnectionFailedLis
     override fun onClick(v: View?) {
         if (v?.id == R.id.login_google_button) {
             signInWithGoogle()
+        } else if (v?.id == R.id.login_facebook_button) {
+            signInWithFacebook()
         } else {
             Toast.makeText(this, "Something else clicked.",
                     Toast.LENGTH_SHORT).show()
@@ -84,10 +86,8 @@ class LoginActivity : AppCompatActivity(), GoogleApiClient.OnConnectionFailedLis
         mCallbackManager = CallbackManager.Factory.create()
 
         findViewById(R.id.login_google_button).setOnClickListener(this)
-        val mFacebookButton = findViewById(R.id.login_facebook_button) as LoginButton
+        findViewById(R.id.login_facebook_button).setOnClickListener(this)
 
-        mFacebookButton.setReadPermissions("email")
-        LoginManager.getInstance().registerCallback(mCallbackManager, this)
 
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
@@ -132,9 +132,15 @@ class LoginActivity : AppCompatActivity(), GoogleApiClient.OnConnectionFailedLis
                         setResult(RESULT_OK, intent)
                         finish()
                     } else {
-                        Log.w(TAG, "signInWithCredential", it.exception)
-                        Toast.makeText(this, "Authentication failed.",
-                                Toast.LENGTH_SHORT).show()
+                        if (it.exception != null && it.exception!!::class == FirebaseAuthUserCollisionException::class) {
+                            Log.w(TAG, "signInWithCredential", it.exception)
+                            Toast.makeText(this, "Associated email already in use. Try a different login method?",
+                                    Toast.LENGTH_LONG).show()
+                        } else {
+                            Log.w(TAG, "signInWithCredential", it.exception)
+                            Toast.makeText(this, "Authentication failed.",
+                                    Toast.LENGTH_SHORT).show()
+                        }
                     }
                 }
     }
@@ -157,11 +163,16 @@ class LoginActivity : AppCompatActivity(), GoogleApiClient.OnConnectionFailedLis
                         setResult(RESULT_OK, intent)
                         finish()
                     } else {
-                        Log.w(TAG, "signInWithCredential", it.exception)
-                        Toast.makeText(this, "Authentication failed.",
-                                Toast.LENGTH_SHORT).show()
+                        if (it.exception != null && it.exception!!::class == FirebaseAuthUserCollisionException::class) {
+                            Log.w(TAG, "signInWithCredential", it.exception)
+                            Toast.makeText(this, "Associated email already in use. Try a different login method?",
+                                    Toast.LENGTH_LONG).show()
+                        } else {
+                            Log.w(TAG, "signInWithCredential", it.exception)
+                            Toast.makeText(this, "Authentication failed.",
+                                    Toast.LENGTH_SHORT).show()
+                        }
                     }
-
                 }
     }
 
@@ -169,5 +180,11 @@ class LoginActivity : AppCompatActivity(), GoogleApiClient.OnConnectionFailedLis
     private fun signInWithGoogle() {
         val signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient)
         startActivityForResult(signInIntent, RC_SIGN_IN)
+    }
+
+    private fun signInWithFacebook() {
+        val loginManager = LoginManager.getInstance()
+        loginManager.logInWithReadPermissions(this, listOf("email"))
+        loginManager.registerCallback(mCallbackManager, this)
     }
 }
