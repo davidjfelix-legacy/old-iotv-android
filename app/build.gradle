@@ -1,7 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
-apply plugin: 'com.jakewharton.butterknife'
 apply plugin: 'io.fabric'
 
 android {
@@ -31,12 +30,15 @@ android {
     }
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             zipAlignEnabled true
             signingConfig signingConfigs.release
         }
         debug {
+            minifyEnabled true
+            useProguard false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             debuggable true
             zipAlignEnabled true
             signingConfig signingConfigs.debug
@@ -61,9 +63,6 @@ dependencies {
     // Kotlin stdlib
     compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
 
-    // Butterknife injection and annotation processing
-    compile 'com.jakewharton:butterknife:8.5.1'
-    kapt 'com.jakewharton:butterknife-compiler:8.5.1'
 
     // Retrofit HTTP client with okhttp and okio
     compile 'com.squareup.retrofit2:retrofit:2.2.0'
