@@ -41,18 +41,32 @@
         android:id="@+id/login_email_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/login_sign_in"/>
+        android:backgroundTint="@color/colorPrimaryDark"
+        android:text="@string/login_sign_in"
+        android:textAppearance="@style/TextAppearance.AppCompat.Widget.Button.Inverse"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="- or -"
+        android:textAppearance="@android:style/TextAppearance.Material.Medium"/>
 
     <Button
         android:id="@+id/login_google_button"
+        style="@style/GoogleLoginButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/login_sign_in_with_google"/>
+        android:backgroundTint="@android:color/holo_red_dark"
+        android:text="@string/login_sign_in_with_google"
+        android:textAppearance="@style/TextAppearance.AppCompat.Widget.Button.Inverse"/>
 
     <Button
         android:id="@+id/login_facebook_button"
         style="@style/FacebookLoginButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/login_sign_in_with_facebook"/>
+        android:backgroundTint="@color/com_facebook_button_background_color"
+        android:text="@string/login_sign_in_with_facebook"
+        android:textAppearance="@style/TextAppearance.AppCompat.Widget.Button.Inverse"/>
 </LinearLayout>

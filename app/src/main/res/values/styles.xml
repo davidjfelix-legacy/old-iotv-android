@@ -9,7 +9,8 @@
     </style>
 
     <style name="FacebookLoginButton">
-        
     </style>
 
+    <style name="GoogleLoginButton">
+    </style>
 </resources>
