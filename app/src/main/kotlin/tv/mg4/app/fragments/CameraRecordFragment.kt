@@ -25,7 +25,11 @@ import android.util.SparseIntArray
 import android.view.*
 import android.widget.Button
 import android.widget.Toast
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.storage.FirebaseStorage
 import tv.mg4.app.AutoFitTextureView
+import java.io.File
+import java.io.FileInputStream
 import java.io.IOException
 import java.lang.RuntimeException
 import java.util.concurrent.Semaphore
@@ -468,6 +472,22 @@ class CameraRecordFragment : Fragment(), View.OnClickListener, FragmentCompat.On
         mMediaRecorder?.reset()
 
         Toast.makeText(activity, "Videosaved: " + mNextVideoAbsolutePath, Toast.LENGTH_SHORT).show()
+        // TODO: extract me into a service
+        val user = FirebaseAuth.getInstance().currentUser
+        user?.let {
+            val storage = FirebaseStorage.getInstance()
+            val storageRef = storage.reference
+            val file = File(mNextVideoAbsolutePath)
+            val videoRef = storageRef.child("rawVideos/" + user.uid + "/" + file.name)
+            val stream = FileInputStream(file)
+            val uploadTask = videoRef.putStream(stream)
+            uploadTask.addOnFailureListener {
+                Toast.makeText(activity, "Failed to upload:  " + file.name, Toast.LENGTH_SHORT).show()
+            }
+            uploadTask.addOnSuccessListener {
+                Toast.makeText(activity, "Succeeded uploading:  " + file.name, Toast.LENGTH_SHORT).show()
+            }
+        }
         Log.d(TAG, "Video saved: " + mNextVideoAbsolutePath)
         mNextVideoAbsolutePath = ""
         startPreview()

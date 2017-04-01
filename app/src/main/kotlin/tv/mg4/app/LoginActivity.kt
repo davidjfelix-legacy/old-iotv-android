@@ -1,8 +1,10 @@
 package tv.mg4.app
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.util.AttributeSet
 import android.util.Log
 import android.view.View
 import android.widget.Toast
@@ -21,9 +23,10 @@ import com.google.firebase.auth.FacebookAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.GoogleAuthProvider
+import org.jetbrains.anko.onClick
 
 
-class LoginActivity : AppCompatActivity(), GoogleApiClient.OnConnectionFailedListener, FacebookCallback<LoginResult>, View.OnClickListener {
+class LoginActivity : AppCompatActivity(), GoogleApiClient.OnConnectionFailedListener, FacebookCallback<LoginResult> {
     override fun onError(error: FacebookException?) {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
@@ -69,24 +72,13 @@ class LoginActivity : AppCompatActivity(), GoogleApiClient.OnConnectionFailedLis
 
     }
 
-    override fun onClick(v: View?) {
-        if (v?.id == R.id.login_google_button) {
-            signInWithGoogle()
-        } else if (v?.id == R.id.login_facebook_button) {
-            signInWithFacebook()
-        } else {
-            Toast.makeText(this, "Something else clicked.",
-                    Toast.LENGTH_SHORT).show()
-        }
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
         mCallbackManager = CallbackManager.Factory.create()
 
-        findViewById(R.id.login_google_button).setOnClickListener(this)
-        findViewById(R.id.login_facebook_button).setOnClickListener(this)
+        findViewById(R.id.login_google_button).onClick { signInWithGoogle() }
+        findViewById(R.id.login_facebook_button).onClick { signInWithFacebook() }
 
 
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
