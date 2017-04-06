@@ -1,4 +1,4 @@
-package tv.mg4.app.fragments
+package io.iotv.app.fragments
 
 import android.Manifest
 import android.R
@@ -27,7 +27,7 @@ import android.widget.Button
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.storage.FirebaseStorage
-import tv.mg4.app.AutoFitTextureView
+import io.iotv.app.AutoFitTextureView
 import java.io.File
 import java.io.FileInputStream
 import java.io.IOException
@@ -114,7 +114,7 @@ class CameraRecordFragment : Fragment(), View.OnClickListener, FragmentCompat.On
         class ConfirmationDialog : DialogFragment() {
             override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
                 return AlertDialog.Builder(activity)
-                        .setMessage(tv.mg4.app.R.string.permission_request)
+                        .setMessage(io.iotv.app.R.string.permission_request)
                         .setPositiveButton(R.string.ok,
                                 { _, _ -> FragmentCompat.requestPermissions(parentFragment, VIDEO_PERMISSIONS, REQUEST_VIDEO_PERMISSIONS) })
                         .setNegativeButton(R.string.cancel,
@@ -184,13 +184,13 @@ class CameraRecordFragment : Fragment(), View.OnClickListener, FragmentCompat.On
 
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater?.inflate(tv.mg4.app.R.layout.fragment_camera_record, container, false)
+        return inflater?.inflate(io.iotv.app.R.layout.fragment_camera_record, container, false)
     }
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         view?.let {
-            mTextureView = view.findViewById(tv.mg4.app.R.id.texture) as AutoFitTextureView
-            mButtonVideo = view.findViewById(tv.mg4.app.R.id.video) as Button
+            mTextureView = view.findViewById(io.iotv.app.R.id.texture) as AutoFitTextureView
+            mButtonVideo = view.findViewById(io.iotv.app.R.id.video) as Button
             mButtonVideo.z = -10.toFloat()
             mButtonVideo.setOnClickListener(this)
         }
@@ -214,7 +214,7 @@ class CameraRecordFragment : Fragment(), View.OnClickListener, FragmentCompat.On
 
     override fun onClick(view: View) {
         when (view.id) {
-            tv.mg4.app.R.id.video -> {
+            io.iotv.app.R.id.video -> {
                 if (mIsRecordingVideo) {
                     stopRecordingVideo()
                 } else {
@@ -252,11 +252,11 @@ class CameraRecordFragment : Fragment(), View.OnClickListener, FragmentCompat.On
         if (requestCode == REQUEST_VIDEO_PERMISSIONS) {
             if (grantResults.size == VIDEO_PERMISSIONS.size) {
                 if (grantResults.any { it != PackageManager.PERMISSION_GRANTED }) {
-                    ErrorDialog.newInstance(getString(tv.mg4.app.R.string.permission_request))
+                    ErrorDialog.newInstance(getString(io.iotv.app.R.string.permission_request))
                             .show(childFragmentManager, FRAGMENT_DIALOG)
                 }
             } else {
-                ErrorDialog.newInstance(getString(tv.mg4.app.R.string.permission_request))
+                ErrorDialog.newInstance(getString(io.iotv.app.R.string.permission_request))
                         .show(childFragmentManager, FRAGMENT_DIALOG)
             }
         } else {
@@ -299,7 +299,7 @@ class CameraRecordFragment : Fragment(), View.OnClickListener, FragmentCompat.On
         } catch (e: NullPointerException) {
             // Currently an NPE is thrown when the Camera2API is used but not supported on the
             // device this code runs.
-            ErrorDialog.newInstance(getString(tv.mg4.app.R.string.camera_error))
+            ErrorDialog.newInstance(getString(io.iotv.app.R.string.camera_error))
                     .show(childFragmentManager, FRAGMENT_DIALOG)
         } catch (e: InterruptedException) {
             throw RuntimeException("Interrupted while trying to lock camera opening.")
@@ -439,7 +439,7 @@ class CameraRecordFragment : Fragment(), View.OnClickListener, FragmentCompat.On
                     updatePreview()
                     activity.runOnUiThread {
                         // UI
-                        mButtonVideo.setText(tv.mg4.app.R.string.stop)
+                        mButtonVideo.setText(io.iotv.app.R.string.stop)
                         mIsRecordingVideo = true
 
                         // Start recording
@@ -465,7 +465,7 @@ class CameraRecordFragment : Fragment(), View.OnClickListener, FragmentCompat.On
     private fun stopRecordingVideo() {
         // UI
         mIsRecordingVideo = false
-        mButtonVideo.setText(tv.mg4.app.R.string.record)
+        mButtonVideo.setText(io.iotv.app.R.string.record)
 
         // Stop recording
         mMediaRecorder?.stop()

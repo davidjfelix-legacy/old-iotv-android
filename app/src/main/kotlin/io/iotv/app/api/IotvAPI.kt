@@ -1,13 +1,13 @@
-package tv.mg4.app.api
+package io.iotv.app.api
 
 import io.reactivex.Observable
 import retrofit2.http.*
-import tv.mg4.app.api.requests.NewVideo
-import tv.mg4.app.api.requests.PartialVideo
-import tv.mg4.app.api.responses.ServerResponse
-import tv.mg4.app.api.responses.Video
+import io.iotv.app.api.requests.NewVideo
+import io.iotv.app.api.requests.PartialVideo
+import io.iotv.app.api.responses.ServerResponse
+import io.iotv.app.api.responses.Video
 
-interface Mg4API {
+interface IotvAPI {
 
     @DELETE("/videos/{id}")
     fun deleteVideo(@Path("id") id: String): Observable<ServerResponse>

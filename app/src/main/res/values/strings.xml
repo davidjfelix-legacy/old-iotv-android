@@ -2,9 +2,9 @@
     <string name="record">Record</string>
     <string name="stop">Stop</string>
     <string name="description_info">Info</string>
-    <string name="permission_request">Mg4.tv needs permission for camera and audio to record videos.</string>
+    <string name="permission_request">iotv needs permission for camera and audio to record videos.</string>
     <string name="camera_error">This device doesn\'t support Camera2 API</string>
-    <string name="app_name">Mg4.tv</string>
+    <string name="app_name">iotv</string>
     <string name="main_activity_label">Record</string>
     <string name="intro_message">Test out recording</string>
     <string name="camera_label">Camera</string>

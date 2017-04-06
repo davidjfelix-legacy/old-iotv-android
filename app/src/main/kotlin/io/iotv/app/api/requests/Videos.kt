@@ -1,4 +1,4 @@
-package tv.mg4.app.api.requests
+package io.iotv.app.api.requests
 
 data class PartialVideo(
         val title: String?

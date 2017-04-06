@@ -1,8 +1,9 @@
-package tv.mg4.app
+package io.iotv.app
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import tv.mg4.app.fragments.CameraRecordFragment
+import io.iotv.app.fragments.CameraRecordFragment
+import io.iotv.app.R
 
 
 class CameraActivity : AppCompatActivity() {

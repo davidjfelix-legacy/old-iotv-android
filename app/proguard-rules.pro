@@ -23,8 +23,8 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
--keep class tv.mg4.app.MainActivity
--keep class tv.mg4.app.Mg4Application
+-keep class io.iotv.app.MainActivity
+-keep class io.iotv.app.IotvApplication
 
 # Firebase rules
 -keep class com.firebase.** { *; }
@@ -47,3 +47,7 @@
 
 # Okio rules
 -dontwarn okio.**
+
+# Crashlytics rules
+-keepattributes *Annotation*
+-keepattributes SourceFile,LineNumberTable

@@ -1,4 +1,4 @@
-package tv.mg4.app
+package io.iotv.app
 
 import android.content.Context
 import android.content.Intent
@@ -24,6 +24,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.GoogleAuthProvider
 import org.jetbrains.anko.onClick
+import io.iotv.app.R
 
 
 class LoginActivity : AppCompatActivity(), GoogleApiClient.OnConnectionFailedListener, FacebookCallback<LoginResult> {

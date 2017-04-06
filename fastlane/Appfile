@@ -1,2 +1,2 @@
 json_key_file "app/googlePlayAPICredentials.json"
-package_name "tv.mg4.app"
+package_name "io.iotv.app"

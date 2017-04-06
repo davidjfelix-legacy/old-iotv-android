@@ -21,7 +21,7 @@ android {
     compileSdkVersion 25
     buildToolsVersion '25.0.0'
     defaultConfig {
-        applicationId "tv.mg4.app"
+        applicationId "io.iotv.app"
         minSdkVersion 23
         targetSdkVersion 25
         versionCode 13

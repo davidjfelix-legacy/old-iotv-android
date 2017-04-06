@@ -1,4 +1,4 @@
-package tv.mg4.app
+package io.iotv.app
 
 import android.content.Intent
 import android.os.Bundle
@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity
 import android.widget.Button
 import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.onClick
+import io.iotv.app.R
 
 class MainActivity : AppCompatActivity() {
     companion object {

@@ -1,4 +1,4 @@
-package tv.mg4.app
+package io.iotv.app
 
 import android.content.Context
 import android.support.test.InstrumentationRegistry
@@ -22,6 +22,6 @@ class ExampleInstrumentedTest {
         // Context of the app under test.
         val appContext = InstrumentationRegistry.getTargetContext()
 
-        assertEquals("tv.mg4.app", appContext.packageName)
+        assertEquals("io.iotv.app", appContext.packageName)
     }
 }

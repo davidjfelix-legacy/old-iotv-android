@@ -1,4 +1,4 @@
-package tv.mg4.app
+package io.iotv.app
 
 import org.junit.Test
 

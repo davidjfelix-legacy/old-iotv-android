@@ -1,4 +1,4 @@
-package tv.mg4.app.services
+package io.iotv.app.services
 
 import android.app.IntentService
 import android.content.Intent

@@ -10,7 +10,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:790062285088:android:5c38151cb1b1473a",
         "android_client_info": {
-          "package_name": "tv.mg4.app"
+          "package_name": "io.iotv.app"
         }
       },
       "oauth_client": [
@@ -18,7 +18,7 @@
           "client_id": "790062285088-5vtpovi9hmc71u4rua8e97g8p9heu3dr.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "tv.mg4.app",
+            "package_name": "io.iotv.app",
             "certificate_hash": "22df83d18abde6256148e89dca6e9094dd625de6"
           }
         },
