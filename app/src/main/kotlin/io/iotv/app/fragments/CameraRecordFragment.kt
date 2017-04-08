@@ -1,7 +1,6 @@
 package io.iotv.app.fragments
 
 import android.Manifest
-import android.R
 import android.app.AlertDialog
 import android.app.Dialog
 import android.app.DialogFragment
@@ -25,17 +24,16 @@ import android.util.SparseIntArray
 import android.view.*
 import android.widget.Button
 import android.widget.Toast
-import com.google.android.gms.tasks.Continuation
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
-import com.google.firebase.storage.UploadTask
 import io.iotv.app.AutoFitTextureView
+import io.iotv.app.R
 import java.io.File
 import java.io.FileInputStream
 import java.io.IOException
-import java.lang.RuntimeException
+import java.lang.*
 import java.util.concurrent.Semaphore
 import java.util.concurrent.TimeUnit
 
@@ -110,7 +108,7 @@ class CameraRecordFragment : Fragment(), View.OnClickListener, FragmentCompat.On
             override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
                 return AlertDialog.Builder(activity)
                         .setMessage(arguments.getString(ARG_MESSAGE))
-                        .setPositiveButton(R.string.ok) { _, _ -> activity.finish() }
+                        .setPositiveButton(android.R.string.ok) { _, _ -> activity.finish() }
                         .create()
             }
         }
@@ -118,10 +116,10 @@ class CameraRecordFragment : Fragment(), View.OnClickListener, FragmentCompat.On
         class ConfirmationDialog : DialogFragment() {
             override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
                 return AlertDialog.Builder(activity)
-                        .setMessage(io.iotv.app.R.string.permission_request)
-                        .setPositiveButton(R.string.ok,
+                        .setMessage(R.string.permission_request)
+                        .setPositiveButton(android.R.string.ok,
                                 { _, _ -> FragmentCompat.requestPermissions(parentFragment, VIDEO_PERMISSIONS, REQUEST_VIDEO_PERMISSIONS) })
-                        .setNegativeButton(R.string.cancel,
+                        .setNegativeButton(android.R.string.cancel,
                                 { _, _ -> parentFragment.activity.finish() })
                         .create()
             }
