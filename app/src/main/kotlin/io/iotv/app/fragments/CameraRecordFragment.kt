@@ -495,6 +495,7 @@ class CameraRecordFragment : Fragment(), View.OnClickListener, FragmentCompat.On
 
         Toast.makeText(activity, "Videosaved: " + mNextVideoAbsolutePath, Toast.LENGTH_SHORT).show()
         // TODO: extract me into a service
+
         val user = FirebaseAuth.getInstance().currentUser
         user?.let {
             val file = File(mNextVideoAbsolutePath)
