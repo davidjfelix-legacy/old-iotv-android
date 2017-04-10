@@ -48,6 +48,9 @@
 # Okio rules
 -dontwarn okio.**
 
+# Dagger rules
+-dontwarn dagger.**
+
 # Crashlytics rules
 -keepattributes *Annotation*
 -keepattributes SourceFile,LineNumberTable
