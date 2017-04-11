@@ -1,5 +1,6 @@
 package io.iotv.app.api
 
+import android.util.Log
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -37,11 +38,16 @@ class IotvAPIClient {
                 .child("videos")
                 .push()
                 .key
-        val updates = mapOf(
-                "/videos/" + videoId to mapOf(
-                        "owner_id" to user.uid,
-                        "url" to downloadUrl
-                ))
+        val userVideosUpdate: HashMap<String, String> = HashMap()
+        userVideosUpdate.put("video_id", videoId)
+        userVideosUpdate.put("url", downloadUrl)
+        val videosUpdate: HashMap<String, String> = HashMap()
+        videosUpdate.put("owner_id", user.uid)
+        videosUpdate.put("url", downloadUrl)
+        val updates: HashMap<String, Any> = HashMap()
+        Log.d("IotvClient", user.uid + " : " + downloadUrl)
+        updates.put("/user-videos/" + user.uid, userVideosUpdate)
+        updates.put("/videos/" + videoId, videosUpdate)
         return databaseRef.updateChildren(updates)
     }
 }

@@ -24,14 +24,9 @@ import android.util.SparseIntArray
 import android.view.*
 import android.widget.Button
 import android.widget.Toast
-import com.google.android.gms.tasks.Task
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.storage.FirebaseStorage
 import io.iotv.app.AutoFitTextureView
 import io.iotv.app.R
-import java.io.File
-import java.io.FileInputStream
+import io.iotv.app.api.IotvAPIClient
 import java.io.IOException
 import java.lang.*
 import java.util.concurrent.Semaphore
@@ -460,25 +455,6 @@ class CameraRecordFragment : Fragment(), View.OnClickListener, FragmentCompat.On
         }
     }
 
-    private fun writeVideoToDatabase(downloadUrl: String): Task<Void> {
-        val user = FirebaseAuth.getInstance().currentUser
-        val databaseRef = FirebaseDatabase
-                .getInstance()
-                .reference
-        user?.let {
-            val videoId = databaseRef
-                    .child("videos")
-                    .push()
-                    .key
-            val updates = mapOf(
-                    "/videos/" + videoId to mapOf(
-                            "owner_id" to user.uid,
-                            "url" to downloadUrl
-                    ))
-            return databaseRef.updateChildren(updates)
-        }
-        return databaseRef.updateChildren(mapOf())
-    }
 
     private fun closePreviewSession() {
         mPreviewSession?.close()
@@ -495,33 +471,16 @@ class CameraRecordFragment : Fragment(), View.OnClickListener, FragmentCompat.On
 
         Toast.makeText(activity, "Videosaved: " + mNextVideoAbsolutePath, Toast.LENGTH_SHORT).show()
         // TODO: extract me into a service
+        val client = IotvAPIClient()
+        val uploadTask = client.createVideo(mNextVideoAbsolutePath)
+        uploadTask?.let {
 
-        val user = FirebaseAuth.getInstance().currentUser
-        user?.let {
-            val file = File(mNextVideoAbsolutePath)
-            val stream = FileInputStream(file)
-            val uploadTask = FirebaseStorage
-                    .getInstance()
-                    .reference
-                    .child("rawVideos/" + user.uid + "/" + file.name)
-                    .putStream(stream)
             uploadTask.addOnFailureListener {
-                Toast.makeText(activity, "Failed to upload:  " + file.name, Toast.LENGTH_SHORT).show()
+                Toast.makeText(activity, "Failed to upload", Toast.LENGTH_SHORT).show()
             }
             uploadTask.addOnSuccessListener {
-                Toast.makeText(activity, "Succeeded uploading:  " + file.name, Toast.LENGTH_SHORT).show()
+                Toast.makeText(activity, "Succeeded uploading", Toast.LENGTH_SHORT).show()
             }
-            uploadTask.continueWithTask({
-                writeVideoToDatabase(it.result.downloadUrl.toString())
-            })
-                    .addOnFailureListener {
-                        Toast.makeText(activity, "Failed to update the database.", Toast.LENGTH_SHORT).show()
-                    }
-                    .addOnSuccessListener {
-                        Toast.makeText(activity, "Updated the database.", Toast.LENGTH_SHORT).show()
-
-                    }
-
         }
         Log.d(TAG, "Video saved: " + mNextVideoAbsolutePath)
         mNextVideoAbsolutePath = ""
