@@ -1,12 +1,9 @@
 package io.iotv.app
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import android.util.AttributeSet
 import android.util.Log
-import android.view.View
 import android.widget.Toast
 import com.facebook.AccessToken
 import com.facebook.CallbackManager
@@ -23,8 +20,8 @@ import com.google.firebase.auth.FacebookAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.GoogleAuthProvider
+import kotlinx.android.synthetic.main.activity_login.*
 import org.jetbrains.anko.onClick
-import io.iotv.app.R
 
 
 class LoginActivity : AppCompatActivity(), GoogleApiClient.OnConnectionFailedListener, FacebookCallback<LoginResult> {
@@ -78,8 +75,9 @@ class LoginActivity : AppCompatActivity(), GoogleApiClient.OnConnectionFailedLis
         setContentView(R.layout.activity_login)
         mCallbackManager = CallbackManager.Factory.create()
 
-        findViewById(R.id.login_google_button).onClick { signInWithGoogle() }
-        findViewById(R.id.login_facebook_button).onClick { signInWithFacebook() }
+
+        login_google_button.onClick { signInWithGoogle() }
+        login_facebook_button.onClick { signInWithFacebook() }
 
 
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)

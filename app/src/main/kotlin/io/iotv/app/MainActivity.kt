@@ -6,7 +6,6 @@ import android.support.v7.app.AppCompatActivity
 import android.widget.Button
 import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.onClick
-import io.iotv.app.R
 
 class MainActivity : AppCompatActivity() {
     companion object {
@@ -18,7 +17,6 @@ class MainActivity : AppCompatActivity() {
     var mCameraButton: Button? = null
     var mLoginIntent: Intent? = null
     var mCameraIntent: Intent? = null
-
 
 
     override fun onCreate(savedInstanceState: Bundle?) {

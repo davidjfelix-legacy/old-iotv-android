@@ -8,8 +8,8 @@ class AutoFitTextureView(context: Context?, attrs: AttributeSet?, defStyleAttr: 
     private var mRatioWidth = 0
     private var mRatioHeight = 0
 
-    constructor(context: Context?): this(context, null)
-    constructor(context: Context?, attrs: AttributeSet?): this(context, attrs, 0)
+    constructor(context: Context?) : this(context, null)
+    constructor(context: Context?, attrs: AttributeSet?) : this(context, attrs, 0)
 
     fun setAspectRatio(width: Int, height: Int) {
         if (width < 0 || height < 0) {
