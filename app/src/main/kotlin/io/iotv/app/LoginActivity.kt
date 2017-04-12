@@ -76,6 +76,7 @@ class LoginActivity : AppCompatActivity(), GoogleApiClient.OnConnectionFailedLis
         mCallbackManager = CallbackManager.Factory.create()
 
 
+        login_email_button.onClick { signInWithEmailAndPassword() }
         login_google_button.onClick { signInWithGoogle() }
         login_facebook_button.onClick { signInWithFacebook() }
 
@@ -106,29 +107,33 @@ class LoginActivity : AppCompatActivity(), GoogleApiClient.OnConnectionFailedLis
         mAuth.removeAuthStateListener(mAuthListener)
     }
 
+    private fun finishWithUser() {
+        Toast.makeText(this, "Authentication succeeded.",
+                Toast.LENGTH_SHORT).show()
+        val intent = Intent()
+        val bundle = Bundle()
+        bundle.putString("user_id", mAuth.currentUser?.uid)
+        intent.putExtras(bundle)
+        setResult(RESULT_OK, intent)
+        finish()
+    }
+
     private fun firebaseAuthWithGoogle(account: GoogleSignInAccount?) {
         Log.d(TAG, "firebaseAuthWithGoogle:" + account?.id)
         val credential = GoogleAuthProvider.getCredential(account?.idToken, null)
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener {
-                    Log.d(TAG, "signInWithCredential:onComplete:" + it.isSuccessful)
+                    Log.d(TAG, "firebaseAuthWithGoogle:onComplete:" + it.isSuccessful)
 
                     if (it.isSuccessful) {
-                        Toast.makeText(this, "Authentication succeeded.",
-                                Toast.LENGTH_SHORT).show()
-                        val intent = Intent()
-                        val bundle = Bundle()
-                        bundle.putString("user_id", mAuth.currentUser?.uid)
-                        intent.putExtras(bundle)
-                        setResult(RESULT_OK, intent)
-                        finish()
+                        finishWithUser()
                     } else {
                         if (it.exception != null && it.exception!!::class == FirebaseAuthUserCollisionException::class) {
-                            Log.w(TAG, "signInWithCredential", it.exception)
+                            Log.w(TAG, "firebaseAuthWithGoogle", it.exception)
                             Toast.makeText(this, "Associated email already in use. Try a different login method?",
                                     Toast.LENGTH_LONG).show()
                         } else {
-                            Log.w(TAG, "signInWithCredential", it.exception)
+                            Log.w(TAG, "firebaseAuthWithGoogle", it.exception)
                             Toast.makeText(this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show()
                         }
@@ -142,24 +147,17 @@ class LoginActivity : AppCompatActivity(), GoogleApiClient.OnConnectionFailedLis
         val credential = FacebookAuthProvider.getCredential(token.token)
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener {
-                    Log.d(TAG, "signInWithCredential:onComplete:" + it.isSuccessful)
+                    Log.d(TAG, "firebaseAuthWithFacebook:onComplete:" + it.isSuccessful)
 
                     if (it.isSuccessful) {
-                        Toast.makeText(this, "Authentication succeeded.",
-                                Toast.LENGTH_SHORT).show()
-                        val intent = Intent()
-                        val bundle = Bundle()
-                        bundle.putString("user_id", mAuth.currentUser?.uid)
-                        intent.putExtras(bundle)
-                        setResult(RESULT_OK, intent)
-                        finish()
+                        finishWithUser()
                     } else {
                         if (it.exception != null && it.exception!!::class == FirebaseAuthUserCollisionException::class) {
-                            Log.w(TAG, "signInWithCredential", it.exception)
+                            Log.w(TAG, "firebaseAuthWithFacebook", it.exception)
                             Toast.makeText(this, "Associated email already in use. Try a different login method?",
                                     Toast.LENGTH_LONG).show()
                         } else {
-                            Log.w(TAG, "signInWithCredential", it.exception)
+                            Log.w(TAG, "firebaseAuthWithFacebook", it.exception)
                             Toast.makeText(this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show()
                         }
@@ -167,6 +165,27 @@ class LoginActivity : AppCompatActivity(), GoogleApiClient.OnConnectionFailedLis
                 }
     }
 
+    private fun signInWithEmailAndPassword() {
+        mAuth.signInWithEmailAndPassword(login_email_text.text.toString(), login_password_text.text.toString())
+                .addOnCompleteListener {
+                    Log.d(TAG, "signInWithEmailAndPassword:onComplete:" + it.isSuccessful)
+
+                    if (it.isSuccessful) {
+                        finishWithUser()
+                    } else {
+                        if (it.exception != null && it.exception!!::class == FirebaseAuthUserCollisionException::class) {
+                            Log.w(TAG, "signInWithEmailAndPassword", it.exception)
+                            Toast.makeText(this, "Associated email already in use. Try a different login method?",
+                                    Toast.LENGTH_LONG).show()
+                        } else {
+                            Log.w(TAG, "signInWithEmailAndPassword", it.exception)
+                            Toast.makeText(this, "Authentication failed.",
+                                    Toast.LENGTH_SHORT).show()
+                        }
+                    }
+
+                }
+    }
 
     private fun signInWithGoogle() {
         val signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient)
