@@ -8,14 +8,17 @@ import android.app.Fragment
 import android.content.Context
 import android.content.pm.PackageManager
 import android.content.res.Configuration
+import android.graphics.Bitmap
 import android.graphics.Matrix
 import android.graphics.RectF
 import android.graphics.SurfaceTexture
 import android.hardware.camera2.*
 import android.media.MediaRecorder
+import android.media.ThumbnailUtils
 import android.os.Bundle
 import android.os.Handler
 import android.os.HandlerThread
+import android.provider.MediaStore
 import android.support.v13.app.ActivityCompat
 import android.support.v13.app.FragmentCompat
 import android.util.Log
@@ -27,6 +30,7 @@ import android.widget.Toast
 import io.iotv.app.AutoFitTextureView
 import io.iotv.app.R
 import io.iotv.app.api.IotvAPIClient
+import java.io.FileOutputStream
 import java.io.IOException
 import java.lang.*
 import java.util.concurrent.Semaphore
@@ -471,8 +475,11 @@ class CameraRecordFragment : Fragment(), View.OnClickListener, FragmentCompat.On
 
         Toast.makeText(activity, "Videosaved: " + mNextVideoAbsolutePath, Toast.LENGTH_SHORT).show()
         // TODO: extract me into a service
+        val thumbnail = ThumbnailUtils.createVideoThumbnail(mNextVideoAbsolutePath, MediaStore.Video.Thumbnails.MINI_KIND)
+        val thumbnailStream = FileOutputStream("$mNextVideoAbsolutePath.png")
+        thumbnail.compress(Bitmap.CompressFormat.PNG, 100, thumbnailStream)
         val client = IotvAPIClient()
-        val uploadTask = client.createVideo(mNextVideoAbsolutePath)
+        val uploadTask = client.createVideo(mNextVideoAbsolutePath, "$mNextVideoAbsolutePath.png")
         uploadTask?.let {
 
             uploadTask.addOnFailureListener {

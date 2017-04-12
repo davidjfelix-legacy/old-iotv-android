@@ -1,6 +1,5 @@
 package io.iotv.app.api
 
-import android.util.Log
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -11,16 +10,19 @@ import java.io.File
 import java.io.FileInputStream
 
 class IotvAPIClient {
-    fun createVideo(localVideoPath: String): UploadTask? {
+    fun createVideo(localVideoPath: String, localThumbnailPath: String): UploadTask? {
         val user = FirebaseAuth.getInstance().currentUser
         user?.let {
-            val file = File(localVideoPath)
-            val stream = FileInputStream(file)
-            val uploadTask = FirebaseStorage
-                    .getInstance()
-                    .reference
-                    .child("rawVideos/" + user.uid + "/" + file.name)
-                    .putStream(stream)
+            val videoFile = File(localVideoPath)
+            val videoStream = FileInputStream(videoFile)
+            val thumbFile = File(localThumbnailPath)
+            val thumbStream = FileInputStream(thumbFile)
+
+            val uploadTask = writeThumbnailToStorage(thumbFile.name, user.uid, thumbStream)
+
+            uploadTask.continueWithTask({
+                writeVideoToStorage(videoFile.name, user.uid, videoStream)
+            })
             uploadTask.continueWithTask({
                 writeVideoToDatabase(it.result.downloadUrl.toString(), user)
             })
@@ -28,6 +30,32 @@ class IotvAPIClient {
         }
         // TODO: investigate a sealed class
         return null
+    }
+
+//    fun listUserVideos() {
+//        val user = FirebaseAuth.getInstance().currentUser
+//        user?.let {
+//            val databaseRef = FirebaseDatabase
+//                    .getInstance()
+//                    .reference
+//                    .child()
+//        }
+//    }
+
+    private fun writeThumbnailToStorage(fileName: String, userId: String, inputStream: FileInputStream): UploadTask {
+        return FirebaseStorage
+                .getInstance()
+                .reference
+                .child("videoThumbnails/$userId/$fileName")
+                .putStream(inputStream)
+    }
+
+    private fun writeVideoToStorage(fileName: String, userId: String, inputStream: FileInputStream): UploadTask {
+        return FirebaseStorage
+                .getInstance()
+                .reference
+                .child("rawVideos/$userId/$fileName")
+                .putStream(inputStream)
     }
 
     private fun writeVideoToDatabase(downloadUrl: String, user: FirebaseUser): Task<Void> {
@@ -38,16 +66,13 @@ class IotvAPIClient {
                 .child("videos")
                 .push()
                 .key
-        val userVideosUpdate: HashMap<String, String> = HashMap()
-        userVideosUpdate.put("video_id", videoId)
-        userVideosUpdate.put("url", downloadUrl)
-        val videosUpdate: HashMap<String, String> = HashMap()
-        videosUpdate.put("owner_id", user.uid)
-        videosUpdate.put("url", downloadUrl)
-        val updates: HashMap<String, Any> = HashMap()
-        Log.d("IotvClient", user.uid + " : " + downloadUrl)
-        updates.put("/user-videos/" + user.uid, userVideosUpdate)
-        updates.put("/videos/" + videoId, videosUpdate)
+        val updates = mapOf(
+                "/user-videos/${user.uid}/$videoId" to true,
+                "/videos/$videoId" to mapOf(
+                    "owner_id" to user.uid,
+                    "url" to downloadUrl
+                )
+        )
         return databaseRef.updateChildren(updates)
     }
 }
