@@ -2,7 +2,6 @@ package io.iotv.app.api
 
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.UploadTask
@@ -21,10 +20,11 @@ class IotvAPIClient {
             val uploadTask = writeThumbnailToStorage(thumbFile.name, user.uid, thumbStream)
 
             uploadTask.continueWithTask({
+                val thumbUrl = it.result.downloadUrl.toString()
                 writeVideoToStorage(videoFile.name, user.uid, videoStream)
-            })
-            uploadTask.continueWithTask({
-                writeVideoToDatabase(it.result.downloadUrl.toString(), user)
+                        .continueWithTask({
+                            writeVideoToDatabase(it.result.downloadUrl.toString(), thumbUrl, user.uid)
+                        })
             })
             return uploadTask
         }
@@ -58,7 +58,7 @@ class IotvAPIClient {
                 .putStream(inputStream)
     }
 
-    private fun writeVideoToDatabase(downloadUrl: String, user: FirebaseUser): Task<Void> {
+    private fun writeVideoToDatabase(videoUrl: String, thumbUrl: String, userId: String): Task<Void> {
         val databaseRef = FirebaseDatabase
                 .getInstance()
                 .reference
@@ -67,10 +67,11 @@ class IotvAPIClient {
                 .push()
                 .key
         val updates = mapOf(
-                "/user-videos/${user.uid}/$videoId" to true,
+                "/user-videos/$userId/$videoId" to true,
                 "/videos/$videoId" to mapOf(
-                    "owner_id" to user.uid,
-                    "url" to downloadUrl
+                        "owner_id" to userId,
+                        "url" to videoUrl,
+                        "thumbnail_url" to thumbUrl
                 )
         )
         return databaseRef.updateChildren(updates)
