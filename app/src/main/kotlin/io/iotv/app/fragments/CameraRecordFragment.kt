@@ -184,17 +184,15 @@ class CameraRecordFragment : Fragment(), View.OnClickListener, FragmentCompat.On
     private lateinit var mCameraManager: CameraManager
 
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater?.inflate(io.iotv.app.R.layout.fragment_camera_record, container, false)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        return inflater.inflate(R.layout.fragment_camera_record, container, false)
     }
 
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
-        view?.let {
-            mTextureView = view.findViewById(io.iotv.app.R.id.texture) as AutoFitTextureView
-            mButtonVideo = view.findViewById(io.iotv.app.R.id.video) as Button
-            mButtonVideo.z = -10.toFloat()
-            mButtonVideo.setOnClickListener(this)
-        }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        mTextureView = view.findViewById(R.id.texture) as AutoFitTextureView
+        mButtonVideo = view.findViewById(R.id.video) as Button
+        mButtonVideo.z = -10.toFloat()
+        mButtonVideo.setOnClickListener(this)
     }
 
     override fun onResume() {
@@ -215,7 +213,7 @@ class CameraRecordFragment : Fragment(), View.OnClickListener, FragmentCompat.On
 
     override fun onClick(view: View) {
         when (view.id) {
-            io.iotv.app.R.id.video -> {
+            R.id.video -> {
                 if (mIsRecordingVideo) {
                     stopRecordingVideo()
                 } else {
@@ -253,11 +251,11 @@ class CameraRecordFragment : Fragment(), View.OnClickListener, FragmentCompat.On
         if (requestCode == REQUEST_VIDEO_PERMISSIONS) {
             if (grantResults.size == VIDEO_PERMISSIONS.size) {
                 if (grantResults.any { it != PackageManager.PERMISSION_GRANTED }) {
-                    ErrorDialog.newInstance(getString(io.iotv.app.R.string.permission_request))
+                    ErrorDialog.newInstance(getString(R.string.permission_request))
                             .show(childFragmentManager, FRAGMENT_DIALOG)
                 }
             } else {
-                ErrorDialog.newInstance(getString(io.iotv.app.R.string.permission_request))
+                ErrorDialog.newInstance(getString(R.string.permission_request))
                         .show(childFragmentManager, FRAGMENT_DIALOG)
             }
         } else {
@@ -300,7 +298,7 @@ class CameraRecordFragment : Fragment(), View.OnClickListener, FragmentCompat.On
         } catch (e: NullPointerException) {
             // Currently an NPE is thrown when the Camera2API is used but not supported on the
             // device this code runs.
-            ErrorDialog.newInstance(getString(io.iotv.app.R.string.camera_error))
+            ErrorDialog.newInstance(getString(R.string.camera_error))
                     .show(childFragmentManager, FRAGMENT_DIALOG)
         } catch (e: InterruptedException) {
             throw RuntimeException("Interrupted while trying to lock camera opening.")
@@ -408,7 +406,7 @@ class CameraRecordFragment : Fragment(), View.OnClickListener, FragmentCompat.On
     }
 
     private fun getVideoFilePath(context: Context): String {
-        return context.getExternalFilesDir(null).absolutePath + "/" + System.currentTimeMillis() + ".mp4"
+        return "${context.getExternalFilesDir(null).absolutePath}/${System.currentTimeMillis()}.mp4"
     }
 
     private fun startRecordingVideo() {
@@ -440,7 +438,7 @@ class CameraRecordFragment : Fragment(), View.OnClickListener, FragmentCompat.On
                     updatePreview()
                     activity.runOnUiThread {
                         // UI
-                        mButtonVideo.setText(io.iotv.app.R.string.stop)
+                        mButtonVideo.setText(R.string.stop)
                         mIsRecordingVideo = true
 
                         // Start recording
@@ -467,7 +465,7 @@ class CameraRecordFragment : Fragment(), View.OnClickListener, FragmentCompat.On
     private fun stopRecordingVideo() {
         // UI
         mIsRecordingVideo = false
-        mButtonVideo.setText(io.iotv.app.R.string.record)
+        mButtonVideo.setText(R.string.record)
 
         // Stop recording
         mMediaRecorder?.stop()
