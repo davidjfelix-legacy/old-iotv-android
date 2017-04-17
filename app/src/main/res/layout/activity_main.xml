@@ -17,4 +17,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/camera_label"/>
+
+    <Button
+        android:id="@+id/main_videos_link"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/myvideos_label"/>
 </LinearLayout>

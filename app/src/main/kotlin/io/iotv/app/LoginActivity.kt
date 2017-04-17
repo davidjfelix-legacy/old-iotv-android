@@ -166,25 +166,32 @@ class LoginActivity : AppCompatActivity(), GoogleApiClient.OnConnectionFailedLis
     }
 
     private fun signInWithEmailAndPassword() {
-        mAuth.signInWithEmailAndPassword(login_email_text.text.toString(), login_password_text.text.toString())
-                .addOnCompleteListener {
-                    Log.d(TAG, "signInWithEmailAndPassword:onComplete:" + it.isSuccessful)
+        val email = login_email_text.text.toString()
+        val password = login_password_text.text.toString()
 
-                    if (it.isSuccessful) {
-                        finishWithUser()
-                    } else {
-                        if (it.exception != null && it.exception!!::class == FirebaseAuthUserCollisionException::class) {
-                            Log.w(TAG, "signInWithEmailAndPassword", it.exception)
-                            Toast.makeText(this, "Associated email already in use. Try a different login method?",
-                                    Toast.LENGTH_LONG).show()
+        if (email.isNotBlank() && password.isNotBlank()) {
+            mAuth.signInWithEmailAndPassword(email, password)
+                    .addOnCompleteListener {
+                        Log.d(TAG, "signInWithEmailAndPassword:onComplete:" + it.isSuccessful)
+
+                        if (it.isSuccessful) {
+                            finishWithUser()
                         } else {
-                            Log.w(TAG, "signInWithEmailAndPassword", it.exception)
-                            Toast.makeText(this, "Authentication failed.",
-                                    Toast.LENGTH_SHORT).show()
+                            if (it.exception != null && it.exception!!::class == FirebaseAuthUserCollisionException::class) {
+                                Log.w(TAG, "signInWithEmailAndPassword", it.exception)
+                                Toast.makeText(this, "Associated email already in use. Try a different login method?",
+                                        Toast.LENGTH_LONG).show()
+                            } else {
+                                Log.w(TAG, "signInWithEmailAndPassword", it.exception)
+                                Toast.makeText(this, "Authentication failed.",
+                                        Toast.LENGTH_SHORT).show()
+                            }
                         }
-                    }
 
-                }
+                    }
+        } else {
+            Toast.makeText(this, "Please enter both an email and password.", Toast.LENGTH_SHORT).show()
+        }
     }
 
     private fun signInWithGoogle() {

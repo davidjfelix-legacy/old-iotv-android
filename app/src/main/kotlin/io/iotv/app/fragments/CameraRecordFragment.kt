@@ -30,6 +30,7 @@ import android.widget.Toast
 import io.iotv.app.AutoFitTextureView
 import io.iotv.app.R
 import io.iotv.app.api.IotvAPIClient
+import kotlinx.android.synthetic.main.fragment_camera_record.*
 import java.io.FileOutputStream
 import java.io.IOException
 import java.lang.*
@@ -184,15 +185,17 @@ class CameraRecordFragment : Fragment(), View.OnClickListener, FragmentCompat.On
     private lateinit var mCameraManager: CameraManager
 
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        return inflater.inflate(R.layout.fragment_camera_record, container, false)
+    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        return inflater?.inflate(R.layout.fragment_camera_record, container, false)
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        mTextureView = view.findViewById(R.id.texture) as AutoFitTextureView
-        mButtonVideo = view.findViewById(R.id.video) as Button
-        mButtonVideo.z = -10.toFloat()
-        mButtonVideo.setOnClickListener(this)
+    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+        view?.let {
+            mTextureView = texture
+            mButtonVideo = video
+            mButtonVideo.z = -10.toFloat()
+            mButtonVideo.setOnClickListener(this)
+        }
     }
 
     override fun onResume() {
