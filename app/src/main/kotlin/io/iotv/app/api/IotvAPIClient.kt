@@ -2,7 +2,10 @@ package io.iotv.app.api
 
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.UploadTask
 import java.io.File
@@ -32,15 +35,23 @@ class IotvAPIClient {
         return null
     }
 
-//    fun listUserVideos() {
-//        val user = FirebaseAuth.getInstance().currentUser
-//        user?.let {
-//            val databaseRef = FirebaseDatabase
-//                    .getInstance()
-//                    .reference
-//                    .child()
-//        }
-//    }
+    fun listUserVideos() {
+        val user = FirebaseAuth.getInstance().currentUser
+        user?.let {
+            val databaseRef = FirebaseDatabase
+                    .getInstance()
+                    .reference
+                    .child("user-videos")
+            databaseRef.addListenerForSingleValueEvent(object: ValueEventListener {
+                override fun onCancelled(p0: DatabaseError?) {
+                    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                }
+                override fun onDataChange(p0: DataSnapshot?) {
+                    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                }
+            })
+        }
+    }
 
     private fun writeThumbnailToStorage(fileName: String, userId: String, inputStream: FileInputStream): UploadTask {
         return FirebaseStorage

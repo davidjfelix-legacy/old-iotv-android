@@ -3,6 +3,7 @@ package io.iotv.app
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import org.jetbrains.anko.*
+import org.jetbrains.anko.cardview.v7.cardView
 
 class MyVideosActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -10,16 +11,23 @@ class MyVideosActivity : AppCompatActivity() {
 
         verticalLayout {
             padding = dip(30)
-            editText {
-                hint = "Name"
-                textSize = 24f
-            }
-            editText {
-                hint = "Password"
-                textSize = 24f
-            }
-            button("Login") {
-                textSize = 26f
+            cardView {
+                relativeLayout {
+                    padding = dip(30)
+                    textView {
+                        width = wrapContent
+                        height = wrapContent
+                        text = "hello"
+                    }
+                    textView {
+                        width = wrapContent
+                        height = wrapContent
+                        text = "world"
+                    }
+                }.lparams {
+                    width = matchParent
+                    height = wrapContent
+                }
             }
         }
     }

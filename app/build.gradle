@@ -82,7 +82,11 @@ dependencies {
     compile 'org.jetbrains.anko:anko-sdk23:0.9.1'
     compile 'org.jetbrains.anko:anko-appcompat-v7:0.9.1'
     compile 'org.jetbrains.anko:anko-design:0.9.1'
+    compile 'org.jetbrains.anko:anko-support-v4:0.9.1'
+    compile 'org.jetbrains.anko:anko-percent:0.9.1'
     compile 'org.jetbrains.anko:anko-recyclerview-v7:0.9.1'
+    compile 'org.jetbrains.anko:anko-cardview-v7:0.9.1'
+    compile 'org.jetbrains.anko:anko-gridlayout-v7:0.9.1'
 
     // Dagger 2
     compile 'com.google.dagger:dagger:2.10'
