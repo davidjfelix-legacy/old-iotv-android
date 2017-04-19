@@ -2,12 +2,12 @@ package io.iotv.app.api
 
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.UploadTask
+import io.reactivex.*
+import io.reactivex.functions.Cancellable
 import java.io.File
 import java.io.FileInputStream
 
@@ -35,23 +35,52 @@ class IotvAPIClient {
         return null
     }
 
-    fun listUserVideos() {
-        val user = FirebaseAuth.getInstance().currentUser
-        user?.let {
-            val databaseRef = FirebaseDatabase
-                    .getInstance()
-                    .reference
-                    .child("user-videos")
-            databaseRef.addListenerForSingleValueEvent(object: ValueEventListener {
-                override fun onCancelled(p0: DatabaseError?) {
-                    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-                }
-                override fun onDataChange(p0: DataSnapshot?) {
-                    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-                }
-            })
+    fun getUserVideos(user: FirebaseUser): Single<DataSnapshot> = Single.create {
+        object : SingleOnSubscribe<DataSnapshot>, ValueEventListener, Cancellable {
+            lateinit var emitter: SingleEmitter<DataSnapshot>
+            val query: Query by lazy {
+                FirebaseDatabase
+                        .getInstance()
+                        .reference
+                        .child("user-videos/${user.uid}")
+            }
+
+            override fun cancel() = query.removeEventListener(this)
+
+            override fun onCancelled(error: DatabaseError) = emitter.onError(error.toException())
+
+            override fun onDataChange(snapshot: DataSnapshot) = emitter.onSuccess(snapshot)
+
+            override fun subscribe(emitter: SingleEmitter<DataSnapshot>) {
+                this.emitter = emitter
+                query.addListenerForSingleValueEvent(this)
+            }
         }
     }
+
+    fun watchUserVideos(user: FirebaseUser): Flowable<DataSnapshot> = Flowable.create(
+        object : FlowableOnSubscribe<DataSnapshot>, ValueEventListener, Cancellable {
+            lateinit var emitter: FlowableEmitter<DataSnapshot>
+            val query: Query by lazy {
+                FirebaseDatabase
+                        .getInstance()
+                        .reference
+                        .child("user-videos/${user.uid}")
+            }
+
+            override fun cancel() = query.removeEventListener(this)
+
+            override fun onCancelled(error: DatabaseError) = emitter.onError(error.toException())
+
+            override fun onDataChange(snapshot: DataSnapshot) = emitter.onNext(snapshot)
+
+            override fun subscribe(emitter: FlowableEmitter<DataSnapshot>) {
+                this.emitter = emitter
+                query.addValueEventListener(this)
+            }
+        },
+        BackpressureStrategy.LATEST
+    )
 
     private fun writeThumbnailToStorage(fileName: String, userId: String, inputStream: FileInputStream): UploadTask {
         return FirebaseStorage
