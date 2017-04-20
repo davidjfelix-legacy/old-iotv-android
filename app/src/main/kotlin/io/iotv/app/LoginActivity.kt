@@ -4,7 +4,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
-import android.widget.Toast
 import com.facebook.AccessToken
 import com.facebook.CallbackManager
 import com.facebook.FacebookCallback
@@ -21,7 +20,9 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.GoogleAuthProvider
 import kotlinx.android.synthetic.main.activity_login.*
+import org.jetbrains.anko.longToast
 import org.jetbrains.anko.onClick
+import org.jetbrains.anko.toast
 
 
 class LoginActivity : AppCompatActivity(), GoogleApiClient.OnConnectionFailedListener, FacebookCallback<LoginResult> {
@@ -94,7 +95,7 @@ class LoginActivity : AppCompatActivity(), GoogleApiClient.OnConnectionFailedLis
 
     override fun onConnectionFailed(connectionResult: ConnectionResult) {
         Log.d(TAG, "onConnectionFailed:" + connectionResult)
-        Toast.makeText(this, "Google Play Services error.", Toast.LENGTH_SHORT).show()
+        toast("Google Play Services error.")
     }
 
     override fun onStart() {
@@ -108,8 +109,7 @@ class LoginActivity : AppCompatActivity(), GoogleApiClient.OnConnectionFailedLis
     }
 
     private fun finishWithUser() {
-        Toast.makeText(this, "Authentication succeeded.",
-                Toast.LENGTH_SHORT).show()
+        toast("Authentication succeeded.")
         val intent = Intent()
         val bundle = Bundle()
         bundle.putString("user_id", mAuth.currentUser?.uid)
@@ -130,12 +130,10 @@ class LoginActivity : AppCompatActivity(), GoogleApiClient.OnConnectionFailedLis
                     } else {
                         if (it.exception != null && it.exception!!::class == FirebaseAuthUserCollisionException::class) {
                             Log.w(TAG, "firebaseAuthWithGoogle", it.exception)
-                            Toast.makeText(this, "Associated email already in use. Try a different login method?",
-                                    Toast.LENGTH_LONG).show()
+                            longToast("Associated email already in use. Try a different login method?")
                         } else {
                             Log.w(TAG, "firebaseAuthWithGoogle", it.exception)
-                            Toast.makeText(this, "Authentication failed.",
-                                    Toast.LENGTH_SHORT).show()
+                            toast("Authentication failed.")
                         }
                     }
                 }
@@ -154,12 +152,10 @@ class LoginActivity : AppCompatActivity(), GoogleApiClient.OnConnectionFailedLis
                     } else {
                         if (it.exception != null && it.exception!!::class == FirebaseAuthUserCollisionException::class) {
                             Log.w(TAG, "firebaseAuthWithFacebook", it.exception)
-                            Toast.makeText(this, "Associated email already in use. Try a different login method?",
-                                    Toast.LENGTH_LONG).show()
+                            longToast("Associated email already in use. Try a different login method?")
                         } else {
                             Log.w(TAG, "firebaseAuthWithFacebook", it.exception)
-                            Toast.makeText(this, "Authentication failed.",
-                                    Toast.LENGTH_SHORT).show()
+                            toast("Authentication failed.")
                         }
                     }
                 }
@@ -179,18 +175,16 @@ class LoginActivity : AppCompatActivity(), GoogleApiClient.OnConnectionFailedLis
                         } else {
                             if (it.exception != null && it.exception!!::class == FirebaseAuthUserCollisionException::class) {
                                 Log.w(TAG, "signInWithEmailAndPassword", it.exception)
-                                Toast.makeText(this, "Associated email already in use. Try a different login method?",
-                                        Toast.LENGTH_LONG).show()
+                                longToast("Associated email already in use. Try a different login method?")
                             } else {
                                 Log.w(TAG, "signInWithEmailAndPassword", it.exception)
-                                Toast.makeText(this, "Authentication failed.",
-                                        Toast.LENGTH_SHORT).show()
+                                toast("Authentication failed.")
                             }
                         }
 
                     }
         } else {
-            Toast.makeText(this, "Please enter both an email and password.", Toast.LENGTH_SHORT).show()
+            toast("Please enter both an email and password.")
         }
     }
 
